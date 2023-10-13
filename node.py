@@ -1,16 +1,13 @@
-import copy
 import os
 
 import cv2
 import numpy as np
-import torch
 from PIL import Image
 from modelscope.outputs import OutputKeys
 from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
 from .face_process_utils import call_face_crop, color_transfer, Face_Skin
 from protrait.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask
-import torch
 from .config import models_path
 
 import pydevd_pycharm
@@ -114,9 +111,6 @@ class MaskMerge2Image:
                              "image2": ("IMAGE",),
                              "mask": ("MASK",),
                              },
-                "optional": {
-                    "box": ("BOX",),
-                }
                 }
 
     RETURN_TYPES = ("IMAGE",)
@@ -126,10 +120,7 @@ class MaskMerge2Image:
 
     def image_mask_merge(self, image1, image2, mask, box=None):
         mask = mask.reshape((-1, 1, mask.shape[-2], mask.shape[-1])).movedim(1, -1).expand(-1, -1, -1, 3)
-        if box is None:
-            image1 = image1 * mask + image2 * (1 - mask)
-        else:
-            image1[:, box[1]:box[3], box[0]:box[2], :] = image1[:, box[1]:box[3], box[0]:box[2], :] * mask + image2[:, box[1]:box[3], box[0]:box[2], :] * (1 - mask)
+        image1 = image1 * mask + image2 * (1 - mask)
         return (image1,)
 
 class ExpandMaskFaceWidth:
@@ -274,7 +265,7 @@ class PortraitEnhancement:
         output_image = cv2.cvtColor(self.portrait_enhancement(tensor_to_img(image))[OutputKeys.OUTPUT_IMG], cv2.COLOR_BGR2RGB)
         return (np_to_tensor(output_image),)
 
-class ResizeImage:
+class ImageScaleShort:
 
     @classmethod
     def INPUT_TYPES(s):
@@ -285,11 +276,11 @@ class ResizeImage:
         }}
 
     RETURN_TYPES = ("IMAGE",)
-    FUNCTION = "resize_image"
+    FUNCTION = "image_scale_short"
 
     CATEGORY = "protrait/model"
 
-    def resize_image(self, image, size, crop_face):
+    def image_scale_short(self, image, size, crop_face):
         input_image = tensor_to_img(image)
         short_side = min(input_image.width, input_image.height)
         resize = float(short_side / size)
@@ -300,6 +291,26 @@ class ResizeImage:
             new_height = int(np.shape(input_image)[0] // 32 * 32)
             input_image = input_image.resize([new_width, new_height], Image.Resampling.LANCZOS)
         return (img_to_tensor(input_image),)
+
+class ImageResizeTarget:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "image": ("IMAGE",),
+            "width": ("INT", {"default": 512, "min": 0, "max": 2048, "step": 1}),
+            "height": ("INT", {"default": 512, "min": 0, "max": 2048, "step": 1}),
+        }}
+
+    RETURN_TYPES = ("IMAGE",)
+
+    FUNCTION = "image_resize_target"
+
+    CATEGORY = "protrait/model"
+
+    def image_resize_target(self, image, width, height):
+        imagepi = tensor_to_img(image)
+        out = imagepi.resize([width, height], Image.Resampling.LANCZOS)
+        return (img_to_tensor(out),)
 
 class GetImageInfo:
     @classmethod

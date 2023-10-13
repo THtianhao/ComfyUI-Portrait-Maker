@@ -4,4 +4,6 @@ tensorflow
 onnx
 onnxruntime
 modelscope
+scikit-image
+matplotlib
 diffusers==0.18.2

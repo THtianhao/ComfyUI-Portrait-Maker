@@ -1,4 +1,4 @@
-import os, glob
+import os
 from folder_paths import folder_names_and_paths
 
 root_path = os.path.dirname(__file__)
@@ -6,6 +6,7 @@ utils_path = os.path.join(os.path.dirname(__file__), "utils")
 models_path = os.path.join(os.path.dirname(__file__), "models")
 # save_dirs
 urls = [
+    "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/ChilloutMix-ni-fp16.safetensors",
     "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/control_v11p_sd15_openpose.pth",
     "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/control_v11p_sd15_canny.pth",
     "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/control_v11f1e_sd15_tile.pth",
@@ -18,6 +19,7 @@ urls = [
     "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/face_skin.pth",
 ]
 filenames = [
+    os.path.join(folder_names_and_paths['checkpoints'][0][0], "Chilloutmix-Ni-pruned-fp16-fix.safetensors"),
     os.path.join(folder_names_and_paths['controlnet'][0][0], "control_v11p_sd15_openpose.pth"),
     os.path.join(folder_names_and_paths['controlnet'][0][0], "control_v11p_sd15_canny.pth"),
     os.path.join(folder_names_and_paths['controlnet'][0][0], "control_v11f1e_sd15_tile.pth"),

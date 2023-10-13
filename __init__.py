@@ -1,12 +1,39 @@
+import subprocess
 import sys
+import threading
+
 import requests
 from tqdm import tqdm
 from .config import *
 
-# import pydevd_pycharm
-# pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
+import pydevd_pycharm
+
+pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
 
 sys.path.append(utils_path)
+
+def handle_stream(stream, prefix):
+    for line in stream:
+        print(prefix, line, end="")
+
+def run_script(cmd, cwd='.'):
+    process = subprocess.Popen(cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1)
+
+    stdout_thread = threading.Thread(target=handle_stream, args=(process.stdout, ""))
+    stderr_thread = threading.Thread(target=handle_stream, args=(process.stderr, "[!]"))
+
+    stdout_thread.start()
+    stderr_thread.start()
+
+    stdout_thread.join()
+    stderr_thread.join()
+
+    return process.wait()
+
+print("##  installing dependencies")
+
+requirements_path = os.path.join(root_path, "requirements.txt")
+run_script([sys.executable, '-s', '-m', 'pip', 'install', '-q', '-r', requirements_path])
 
 from .node import *
 
@@ -26,7 +53,7 @@ print("Start Setting weights")
 for url, filename in zip(urls, filenames):
     if os.path.exists(filename):
         continue
-    print(f"Start Downloading: {url}")
+    print("Start Downloading: {url}")
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     urldownload_progressbar(url, filename)
 
@@ -43,24 +70,26 @@ NODE_CLASS_MAPPINGS = {
     "MaskDilateErode": MaskDilateErode,
     "SkinRetouching": SkinRetouching,
     "PortraitEnhancement": PortraitEnhancement,
-    "ResizeImage": ResizeImage,
+    "ImageScaleShort": ImageScaleShort,
+    "ImageResizeTarget": ImageResizeTarget,
     "GetImageInfo": GetImageInfo,
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "RetainFace": "RetainFace",
-    "FaceFusion": "FaceFusion",
-    "RatioMerge2Image": "RatioMerge2Image",
-    "MaskMerge2Image": "MaskMerge2Image",
-    "ReplaceBoxImg": "ReplaceBoxImg",
-    "ExpandMaskBox": "ExpandMaskBox",
-    "BoxCropImage": "BoxCropImage",
-    "ColorTransfer": "ColorTransfer",
-    "FaceSkin": "FaceSkin",
-    "MaskDilateErode": "MaskDilateErode",
-    "SkinRetouching": "SkinRetouching",
-    "PortraitEnhancement": "PortraitEnhancement",
-    "ResizeImage": "ResizeImage",
-    "GetImageInfo": "GetImageInfo",
+    "RetainFace": "RetainFace PM",
+    "FaceFusion": "FaceFusion PM",
+    "RatioMerge2Image": "RatioMerge2Image PM",
+    "MaskMerge2Image": "MaskMerge2Image PM",
+    "ReplaceBoxImg": "ReplaceBoxImg PM",
+    "ExpandMaskBox": "ExpandMaskBox PM",
+    "BoxCropImage": "BoxCropImage PM",
+    "ColorTransfer": "ColorTransfer PM",
+    "FaceSkin": "FaceSkin PM",
+    "MaskDilateErode": "MaskDilateErode PM",
+    "SkinRetouching": "SkinRetouching PM",
+    "PortraitEnhancement": "PortraitEnhancement PM",
+    "ImageScaleShort": "ImageScaleShort PM",
+    "ImageResizeTarget": "ImageResizeTarget PM",
+    "GetImageInfo": "GetImageInfo PM",
 }
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
