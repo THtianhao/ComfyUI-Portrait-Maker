@@ -2,6 +2,8 @@
 
 这个项目改编于[EasyPhoto](https://github.com/aigc-apps/sd-webui-EasyPhoto)，对于[EasyPhoto](https://github.com/aigc-apps/sd-webui-EasyPhoto)进行了流程上的拆解，后续会加入其他项目处理人物头像上的系列操作。
 
+![](./images/easyphoto.png)
+
 English | [简体中文](./README_zh-CN.md)
 
 ## 安装
@@ -43,9 +45,6 @@ git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git
 Easyphoto工作位置: [./workflow/easyphoto.json](./workflows/easyphoto.json )
 
 在comfyUI的右侧面板中点击Load，选择项目中的./workflow/easyphoto_workflow.json 文件
-
-![](./images/easyphoto.png)
-
 
 
 ## 节点介绍

@@ -1,8 +1,8 @@
 # [Portrait-Maker](https://github.com/THtianhao/ComfyUI-Portrait-Maker)
 This project is an adaptation of [EasyPhoto](https://github.com/aigc-apps/sd-webui-EasyPhoto), which breaks down the process of [EasyPhoto](https://github.com/aigc-apps/sd-webui-EasyPhoto) and will add a series of operations on human portraits in the future.
+![](./images/easyphoto.png)
 
 English | [简体中文](./README_zh-CN.md)
-
 
 ## Installation
 <span style="color: red;">Note: When you start the plugin for the first time, it will download all the models required by EasyPhoto. You can see the download progress in the terminal. Please do not interrupt the download (no hash verification for startup speed). If the download is interrupted, you need to manually delete the files downloaded halfway last time and download them again.</span>
@@ -40,7 +40,7 @@ Easyphoto workflow location: [./workflow/easyphoto.json](./workflows/easyphoto.j
 
 Click "Load" in the right panel of ComfyUI and select the ./workflow/easyphoto_workflow.json file from the project.
 
-![](./images/easyphoto.png)
+
 
 ## Node Introduction
 
