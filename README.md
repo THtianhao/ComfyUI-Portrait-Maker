@@ -5,7 +5,7 @@ This project is an adaptation of [EasyPhoto](https://github.com/aigc-apps/sd-web
 English | [简体中文](./README_zh-CN.md)
 
 ## Installation
-<span style="color: red;">Note: When you start the plugin for the first time, it will download all the models required by EasyPhoto. You can see the download progress in the terminal. Please do not interrupt the download (no hash verification for startup speed). If the download is interrupted, you need to manually delete the files downloaded halfway last time and download them again.</span>
+**Note: When you start the plugin for the first time, it will download all the models required by EasyPhoto. You can see the download progress in the terminal. Please do not interrupt the download (no hash verification for startup speed). If the download is interrupted, you need to manually delete the files downloaded halfway last time and download them again.**
 
 1. First, install ComfyUI.
 
