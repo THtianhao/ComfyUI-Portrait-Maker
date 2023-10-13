@@ -98,6 +98,6 @@ If you have any questions or suggestions, you can reach us through:
 
 - Email: tototianhao@gmail.com
 - QQ Group: 10419777
-- WeChat Group: ()[./images/wechat.png]
+- WeChat Group: ![](./images/wechat.jpg)
 
 Feel free to join us and contribute to the development of the EasyPhoto ConfyUI Plugin!

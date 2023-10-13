@@ -104,6 +104,6 @@ Easyphoto工作位置: [./workflow/easyphoto.json](./workflows/easyphoto.json )
 
 - 电子邮件：tototianhao@gmail.com
 - QQ 群：10419777
-- 微信群：[](./images/wechat.jpg)
+- 微信群：![](./images/wechat.jpg)
 
 欢迎加入我们，为 EasyPhoto ConfyUI Plugin 的发展做出贡献！
