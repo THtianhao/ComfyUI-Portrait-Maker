@@ -1,0 +1,7 @@
+opencv-python
+tensorflow-cpu
+tensorflow
+onnx
+onnxruntime
+modelscope
+diffusers==0.18.2
