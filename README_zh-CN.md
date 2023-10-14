@@ -10,6 +10,11 @@ English | [简体中文](./README_zh-CN.md)
 
 **注意：初次启动插件的时候会下载EasyPhoto所需要的所有模型，在terminal中可以看到下载进度，请不要中断下载，(为了启动速度，没有做hash校验)，如果中断下载，需要手动删除上次下载一半的文件，重新下载。**
 
+### windows用户
+
+如果在使用ComfyUI的时候使用zip包解压后的项目，是无法使用本插件的，本项目依赖modelscope，但是ComfyUI官方zip包中的虚拟环境无法安装modelscope，并且ComfyUI作者已经回复了表示无法解决此问题[aliyunsdkcor error](https://github.com/ltdrdata/ComfyUI-Impact-Pack/issues/223)如果windows用户想使用本插件来分析、组合ComfyUI的流程，请自己创建虚拟环境。(我使用的是python3.10.6)，当然如果您知道解决的方法，欢迎提交pr
+
+### 步骤
 1. 首先安装ComfyUI
 
 2. ComfyUI运行成功后进入`custom_nodes` 目录 `ComfyUI/custom_nodes/`
