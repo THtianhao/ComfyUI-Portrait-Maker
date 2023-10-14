@@ -28,7 +28,7 @@ filenames = [
     os.path.join(folder_names_and_paths['controlnet'][0][0], "body_pose_model.pth"),
     os.path.join(folder_names_and_paths['controlnet'][0][0], "facenet.pth"),
     os.path.join(folder_names_and_paths['controlnet'][0][0], "hand_pose_model.pth"),
-    os.path.join(folder_names_and_paths['vae'][0][0], "VAE/vae-ft-mse-840000-ema-pruned.ckpt"),
+    os.path.join(folder_names_and_paths['vae'][0][0], "vae-ft-mse-840000-ema-pruned.ckpt"),
     os.path.join(models_path, "face_skin.pth"),
 ]
 # prompts
