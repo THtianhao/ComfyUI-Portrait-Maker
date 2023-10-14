@@ -6,9 +6,8 @@ import requests
 from tqdm import tqdm
 from .config import *
 
-import pydevd_pycharm
-
-pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
+# import pydevd_pycharm
+# pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
 
 sys.path.append(utils_path)
 

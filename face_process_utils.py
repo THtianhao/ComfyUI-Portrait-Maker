@@ -8,8 +8,8 @@ from PIL import Image
 from skimage import transform
 from protrait.img_utils import np_to_mask
 
-import pydevd_pycharm
-pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
+# import pydevd_pycharm
+# pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
 
 def safe_get_box_mask_keypoints(image, retinaface_result, crop_ratio, face_seg, mask_type):
     '''

@@ -10,9 +10,8 @@ from .face_process_utils import call_face_crop, color_transfer, Face_Skin
 from protrait.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask
 from .config import models_path
 
-import pydevd_pycharm
-
-pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
+# import pydevd_pycharm
+# pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
 
 class RetainFace:
     def __init__(self):
