@@ -2635,7 +2635,7 @@
     },
     {
       "id": 133,
-      "type": "FaceFusion",
+      "type": "FaceFusionPM",
       "pos": [
         4792,
         919
@@ -2672,7 +2672,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "FaceFusion"
+        "Node name for S&R": "FaceFusionPM"
       },
       "color": "#432",
       "bgcolor": "#653"
@@ -3258,7 +3258,7 @@
     },
     {
       "id": 34,
-      "type": "FaceFusion",
+      "type": "FaceFusionPM",
       "pos": [
         2059,
         919
@@ -3295,7 +3295,7 @@
         }
       ],
       "properties": {
-        "Node name for S&R": "FaceFusion"
+        "Node name for S&R": "FaceFusionPM"
       },
       "color": "#432",
       "bgcolor": "#653"

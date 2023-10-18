@@ -58,7 +58,7 @@ for url, filename in zip(urls, filenames):
 
 NODE_CLASS_MAPPINGS = {
     "RetainFace": RetainFace,
-    "FaceFusion": FaceFusion,
+    "FaceFusionPM": FaceFusionPM,
     "RatioMerge2Image": RatioMerge2Image,
     "MaskMerge2Image": MaskMerge2Image,
     "ReplaceBoxImg": ReplaceBoxImg,
@@ -75,7 +75,7 @@ NODE_CLASS_MAPPINGS = {
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
     "RetainFace": "RetainFace PM",
-    "FaceFusion": "FaceFusion PM",
+    "FaceFusionPM": "FaceFusion PM",
     "RatioMerge2Image": "RatioMerge2Image PM",
     "MaskMerge2Image": "MaskMerge2Image PM",
     "ReplaceBoxImg": "ReplaceBoxImg PM",

@@ -35,7 +35,7 @@ class RetainFace:
         crop_image = image.crop(retinaface_boxes[0])
         return (img_to_tensor(crop_image), retinaface_tensor, retinaface_boxes[0])
 
-class FaceFusion:
+class FaceFusionPM:
 
     def __init__(self):
         self.image_face_fusion = pipeline(Tasks.image_face_fusion, model='damo/cv_unet-image-face-fusion_damo', model_revision='v1.3')
