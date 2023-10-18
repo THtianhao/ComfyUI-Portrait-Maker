@@ -6,6 +6,22 @@
 
 English | [简体中文](./README_zh-CN.md)
 
+## 联系
+
+如果你有任何疑问或建议，可以通过以下方式联系我们：
+
+- 电子邮件：tototianhao@gmail.com
+- telegram: https://t.me/+JoFE2vqHU4phZjg1
+- QQ 群：10419777
+- 微信群： <img src="./images/wechat.jpg" width="200">
+
+## 正在开发
+1. 联系 modelscope 解决windows依赖问题
+2. 增加模型下载的log
+3. 节点重命名解决与其他插件冲突问题
+4. FacefusionPM 节点增加roop模型
+5. 优化workflow
+
 ## 安装
 
 **注意：初次启动插件的时候会下载EasyPhoto所需要的所有模型，在terminal中可以看到下载进度，请不要中断下载，(为了启动速度，没有做hash校验)，如果中断下载，需要手动删除上次下载一半的文件，重新下载。**
@@ -102,12 +118,6 @@ Easyphoto工作位置: [./workflow/easyphoto.json](./workflows/easyphoto.json )
 
 该项目采用 MIT 许可证。查看 [LICENSE](LICENSE) 文件以获取详细信息。
 
-## 联系
 
-如果你有任何疑问或建议，可以通过以下方式联系我们：
-
-- 电子邮件：tototianhao@gmail.com
-- QQ 群：10419777
-- 微信群：![](./images/wechat.jpg)
 
 欢迎加入我们，为 EasyPhoto ConfyUI Plugin 的发展做出贡献！

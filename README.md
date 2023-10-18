@@ -4,6 +4,23 @@ This project is an adaptation of [EasyPhoto](https://github.com/aigc-apps/sd-web
 
 English | [简体中文](./README_zh-CN.md)
 
+## Community
+
+If you have any questions or suggestions, you can reach us through:
+
+- Email: tototianhao@gmail.com
+- telegram: https://t.me/+JoFE2vqHU4phZjg1
+- QQ Group: 10419777
+- WeChat Group: <img src="./images/wechat.jpg" width="200">
+
+
+## TODOList
+1. Contact modelscope to resolve windows dependency issues
+2. Add the log of name and path of the downloaded model
+3. Node renaming resolves conflicts with other plug-ins
+3. FacefusionPM node adds roop model
+
+
 ## Installation
 **Note: When you start the plugin for the first time, it will download all the models required by EasyPhoto. You can see the download progress in the terminal. Please do not interrupt the download (no hash verification for startup speed). If the download is interrupted, you need to manually delete the files downloaded halfway last time and download them again.**
 
@@ -97,12 +114,5 @@ If you find any issues or have suggestions for improvement, feel free to contrib
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
 
-## Contact
-
-If you have any questions or suggestions, you can reach us through:
-
-- Email: tototianhao@gmail.com
-- QQ Group: 10419777
-- WeChat Group: ![](./images/wechat.jpg)
 
 Feel free to join us and contribute to the development of the EasyPhoto ConfyUI Plugin!
