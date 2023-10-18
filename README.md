@@ -18,7 +18,9 @@ If you have any questions or suggestions, you can reach us through:
 1. Contact modelscope to resolve windows dependency issues
 2. Add the log of name and path of the downloaded model
 3. Node renaming resolves conflicts with other plug-ins
-3. FacefusionPM node adds roop model
+4. FacefusionPM node adds roop model
+5. Optimize workflow
+6. Add Ultimate upscale to eliminate abrupt edges
 
 
 ## Installation

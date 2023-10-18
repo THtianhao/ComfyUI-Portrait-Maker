@@ -21,6 +21,7 @@ English | [简体中文](./README_zh-CN.md)
 3. 节点重命名解决与其他插件冲突问题
 4. FacefusionPM 节点增加roop模型
 5. 优化workflow
+6. 增加Ultimate upscale 消除边缘突兀
 
 ## 安装
 
