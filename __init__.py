@@ -52,7 +52,8 @@ print("Start Setting weights")
 for url, filename in zip(urls, filenames):
     if os.path.exists(filename):
         continue
-    print("Start Downloading: {url}")
+    print(f"Start Downloading: {url} Download To {filename}" )
+    print(f"开始下载: {url} 下载到 {filename}" )
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     urldownload_progressbar(url, filename)
 
