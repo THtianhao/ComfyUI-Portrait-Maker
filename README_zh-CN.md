@@ -16,7 +16,7 @@ English | [简体中文](./README_zh-CN.md)
 - 微信群： <img src="./images/wechat.jpg" width="200">
 
 
-## 近期更新
+## 近期更新v1.0.0
 
 1. 增加模型下载的log
 2. 节点重命名解决与其他插件冲突问题
@@ -24,8 +24,10 @@ English | [简体中文](./README_zh-CN.md)
 4. 更新workflow
 5. 加速第二次的模型加载
 
-## 正在解决
-1. 联系 modelscope 解决windows依赖问题
+## 正在开发v1.1.0
+1. 人脸mask模糊
+2. 人脸换妆容
+3. 人脸脸型的迁移
 
 
 ## 安装
