@@ -1,15 +1,17 @@
-import subprocess
 import sys
+from scripts.config import *
+sys.path.append(root_path)
+
+
+import subprocess
 import threading
 
 import requests
 from tqdm import tqdm
-from .config import *
-
+from scripts.nodes import *
 # import pydevd_pycharm
 # pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
 
-sys.path.append(utils_path)
 
 def handle_stream(stream, prefix):
     for line in stream:
@@ -34,7 +36,6 @@ print("##  installing dependencies")
 requirements_path = os.path.join(root_path, "requirements.txt")
 run_script([sys.executable, '-s', '-m', 'pip', 'install', '-q', '-r', requirements_path])
 
-from .node import *
 
 def urldownload_progressbar(url, file_path):
     response = requests.get(url, stream=True)

@@ -6,9 +6,11 @@ from PIL import Image
 from modelscope.outputs import OutputKeys
 from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
-from .face_process_utils import call_face_crop, color_transfer, Face_Skin
-from protrait.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask
-from .config import models_path
+from utils.face_process_utils import call_face_crop, color_transfer, Face_Skin
+from utils.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask
+import insightface
+from insightface.app import FaceAnalysis
+from insightface.data import get_image as ins_get_image
 
 # import pydevd_pycharm
 # pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
@@ -42,8 +44,9 @@ class FaceFusionPM:
 
     @classmethod
     def INPUT_TYPES(s):
-        return {"required": {"image": ("IMAGE",),
-                             "user_image": ("IMAGE",),
+        return {"required": {"source_image": ("IMAGE",),
+                             "swap_image": ("IMAGE",),
+                             "mode": (["ali", "roop"],),
                              }}
 
     RETURN_TYPES = ("IMAGE",)
@@ -51,13 +54,18 @@ class FaceFusionPM:
 
     CATEGORY = "protrait/model"
 
-    def img_face_fusion(self, image, user_image):
-        image = tensor_to_img(image)
-        user_image = tensor_to_img(user_image)
-        fusion_image = self.image_face_fusion(dict(template=image, user=user_image))[
-            OutputKeys.OUTPUT_IMG]
-        # swap_face(target_img=output_image, source_img=roop_image, model="inswapper_128.onnx", upscale_options=UpscaleOptions())
-        fusion_image = Image.fromarray(cv2.cvtColor(fusion_image, cv2.COLOR_BGR2RGB))
+    def img_face_fusion(self, source_image, swap_image, mode):
+        result_image = None
+        if mode == "ali":
+            source_image = tensor_to_img(source_image)
+            swap_image = tensor_to_img(swap_image)
+            fusion_image = self.image_face_fusion(dict(template=source_image, user=source_image))[
+                OutputKeys.OUTPUT_IMG]
+            # swap_face(target_img=output_image, source_img=roop_image, model="inswapper_128.onnx", upscale_options=UpscaleOptions())
+            result_image = Image.fromarray(cv2.cvtColor(fusion_image, cv2.COLOR_BGR2RGB))
+        else:
+            app = FaceAnalysis(name='buffalo_l')
+
         return (img_to_tensor(fusion_image),)
 
 class RatioMerge2Image:
