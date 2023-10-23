@@ -15,13 +15,17 @@ English | [简体中文](./README_zh-CN.md)
 - QQ 群：10419777
 - 微信群： <img src="./images/wechat.jpg" width="200">
 
-## 正在开发
+
+## 近期更新
+
+1. 增加模型下载的log
+2. 节点重命名解决与其他插件冲突问题
+3. Facefusion PM 节点增加 roop 模型
+4. 更新workflow
+
+## 正在解决
 1. 联系 modelscope 解决windows依赖问题
-2. 增加模型下载的log
-3. 节点重命名解决与其他插件冲突问题
-4. FacefusionPM 节点增加roop模型
-5. 优化workflow
-6. 增加Ultimate upscale 消除边缘突兀
+
 
 ## 安装
 
@@ -47,20 +51,6 @@ git clone https://github.com/THtianhao/ComfyUI-Portrait-Maker.git
 ```
 
 4. 重新启动ComfyUI
-
-
-
-## 依赖插件
-
-[comfyui_controlnet_aux](https://github.com/Fannovel16/comfyui_controlnet_aux)
-
-插件安装：同本插件安装方式进入到`custom_nodes` 然后执行
-
-```
-git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git
-```
-
-提示:次依赖是为了查看openpose的样式
 
 ## ComfyUI 工作流
 

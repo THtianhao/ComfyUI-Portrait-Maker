@@ -14,13 +14,14 @@ If you have any questions or suggestions, you can reach us through:
 - WeChat Group: <img src="./images/wechat.jpg" width="200">
 
 
-## TODOList
-1. Contact modelscope to resolve windows dependency issues
-2. Add the log of name and path of the downloaded model
-3. Node renaming resolves conflicts with other plug-ins
-4. FacefusionPM node adds roop model
-5. Optimize workflow
-6. Add Ultimate upscale to eliminate abrupt edges
+## Recent Updates
+1. Added log for model downloads.
+2. Renamed nodes to resolve conflicts with other plugins.
+3. Added "roop" model to the Facefusion PM node.
+4. Updated the workflow.
+
+## Currently Resolving
+1. Contacting modelscope to address Windows dependency issues.
 
 
 ## Installation
@@ -47,17 +48,6 @@ git clone https://github.com/THtianhao/ComfyUI-Portrait-Maker.git
 
 4. Restart ComfyUI.
 
-## Dependent Plugin
-
-[comfyui_controlnet_aux](https://github.com/Fannovel16/comfyui_controlnet_aux)
-
-To install the dependent plugin, go to the `custom_nodes` in the same way as installing this plugin, and then execute the following:
-
-```
-git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git
-```
-
-Note: This dependency is for viewing the style of openpose.
 
 ## ComfyUI Workflow
 Easyphoto workflow location: [./workflow/easyphoto.json](./workflows/easyphoto.json)
