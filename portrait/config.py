@@ -17,7 +17,7 @@ urls = [
     "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/hand_pose_model.pth",
     "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/vae-ft-mse-840000-ema-pruned.ckpt",
     "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/face_skin.pth",
-    "https://huggingface.co/deepinsight/inswapper/resolve/main/inswapper_128.onnx"
+    "https://huggingface.co/ezioruan/inswapper_128.onnx/resolve/main/inswapper_128.onnx"
 ]
 filenames = [
     os.path.join(folder_names_and_paths['checkpoints'][0][0], "Chilloutmix-Ni-pruned-fp16-fix.safetensors"),
