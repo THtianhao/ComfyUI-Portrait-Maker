@@ -1,24 +1,15 @@
-import os
-
 import cv2
 import numpy as np
 from PIL import Image
 from modelscope.outputs import OutputKeys
-from modelscope.pipelines import pipeline
-from modelscope.utils.constant import Tasks
 from .utils.face_process_utils import call_face_crop, color_transfer, Face_Skin
 from .utils.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask
-from .config import *
-import insightface
-from insightface.app import FaceAnalysis
+from .model_holder import *
 
-import pydevd_pycharm
-pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
+# import pydevd_pycharm
+# pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
 
-class RetainFace:
-    def __init__(self):
-        self.retinaface_detection = pipeline(Tasks.face_detection, 'damo/cv_resnet50_face-detection_retinaface', model_revision='v2.0.2')
-
+class RetinaFacePM:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {"image": ("IMAGE",),
@@ -33,16 +24,11 @@ class RetainFace:
     def retain_face(self, image, multi_user_facecrop_ratio):
         np_image = np.clip(255. * image.cpu().numpy().squeeze(), 0, 255).astype(np.uint8)
         image = Image.fromarray(np_image)
-        retinaface_boxes, retinaface_keypoints, retinaface_masks, retinaface_tensor = call_face_crop(self.retinaface_detection, image, multi_user_facecrop_ratio)
+        retinaface_boxes, retinaface_keypoints, retinaface_masks, retinaface_tensor = call_face_crop(get_retinaface_detection(), image, multi_user_facecrop_ratio)
         crop_image = image.crop(retinaface_boxes[0])
         return (img_to_tensor(crop_image), retinaface_tensor, retinaface_boxes[0])
 
 class FaceFusionPM:
-
-    def __init__(self):
-        self.image_face_fusion = None
-        self.face_analysis = None
-        self.roop = None
 
     @classmethod
     def INPUT_TYPES(s):
@@ -58,29 +44,22 @@ class FaceFusionPM:
 
     def img_face_fusion(self, source_image, swap_image, mode):
         if mode == "ali":
-            if self.image_face_fusion is None:
-                self.image_face_fusion = pipeline(Tasks.image_face_fusion, model='damo/cv_unet-image-face-fusion_damo', model_revision='v1.3')
             source_image = tensor_to_img(source_image)
             swap_image = tensor_to_img(swap_image)
-            fusion_image = self.image_face_fusion(dict(template=source_image, user=swap_image))[
+            fusion_image = get_image_face_fusion()(dict(template=source_image, user=swap_image))[
                 OutputKeys.OUTPUT_IMG]
-            # swap_face(target_img=output_image, source_img=roop_image, model="inswapper_128.onnx", upscale_options=UpscaleOptions())
             result_image = Image.fromarray(cv2.cvtColor(fusion_image, cv2.COLOR_BGR2RGB))
             return (img_to_tensor(result_image),)
         else:
-            if self.face_analysis is None:
-                self.face_analysis = FaceAnalysis(name='buffalo_l')
-            self.face_analysis.prepare(ctx_id=0, det_size=(640, 640))
-            if self.roop is None:
-                self.roop = insightface.model_zoo.get_model('inswapper_128.onnx', download=True, download_zip=True, root=root_path)
+            get_face_analysis().prepare(ctx_id=0, det_size=(640, 640))
             source_image = tensor_to_np(source_image)
-            faces = self.face_analysis.get(source_image)
+            faces = get_face_analysis().get(source_image)
             swap_image = tensor_to_np(swap_image)
-            swap_face = self.face_analysis.get(swap_image)
-            result_image = self.roop.get(source_image, faces[0], swap_face[0], paste_back=True)
+            swap_face = get_face_analysis().get(swap_image)
+            result_image = get_roop().get(source_image, faces[0], swap_face[0], paste_back=True)
             return (np_to_tensor(result_image),)
 
-class RatioMerge2Image:
+class RatioMerge2ImagePM:
     def __init__(self):
         pass
 
@@ -100,7 +79,7 @@ class RatioMerge2Image:
         rate_fusion_image = image1 * (1 - fusion_rate) + image2 * fusion_rate
         return (rate_fusion_image,)
 
-class ReplaceBoxImg:
+class ReplaceBoxImgPM:
     def __init__(self):
         pass
 
@@ -120,7 +99,7 @@ class ReplaceBoxImg:
         origin_image[:, box_area[1]:box_area[3], box_area[0]:box_area[2], :] = replace_image
         return (origin_image,)
 
-class MaskMerge2Image:
+class MaskMerge2ImagePM:
     def __init__(self):
         pass
 
@@ -142,7 +121,7 @@ class MaskMerge2Image:
         image1 = image1 * mask + image2 * (1 - mask)
         return (image1,)
 
-class ExpandMaskFaceWidth:
+class ExpandMaskFaceWidthPM:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {"mask": ("MASK",),
@@ -169,7 +148,7 @@ class ExpandMaskFaceWidth:
         new_mask[0, copy_box[1]:copy_box[3], copy_box[0]:copy_box[2]] = 255
         return (new_mask, copy_box)
 
-class BoxCropImage:
+class BoxCropImagePM:
 
     @classmethod
     def INPUT_TYPES(s):
@@ -187,10 +166,7 @@ class BoxCropImage:
         image = image[:, box[1]:box[3], box[0]:box[2], :]
         return (image,)
 
-class ColorTransfer:
-
-    def __init__(self):
-        pass
+class ColorTransferPM:
 
     @classmethod
     def INPUT_TYPES(s):
@@ -208,10 +184,7 @@ class ColorTransfer:
         transfer_result = color_transfer(tensor_to_np(transfer_from), tensor_to_np(transfer_to))  # 进行颜色迁移
         return (np_to_tensor(transfer_result),)
 
-class FaceSkin:
-    def __init__(self):
-        self.retinaface_detection = pipeline(Tasks.face_detection, 'damo/cv_resnet50_face-detection_retinaface', model_revision='v2.0.2')
-        self.face_skin = Face_Skin(os.path.join(models_path, "face_skin.pth"))
+class FaceSkinPM:
 
     @classmethod
     def INPUT_TYPES(s):
@@ -225,10 +198,10 @@ class FaceSkin:
     CATEGORY = "protrait/model"
 
     def face_skin_mask(self, image):
-        face_skin_one = self.face_skin.detect(tensor_to_img(image), self.retinaface_detection, [1, 2, 3, 4, 5, 10, 12, 13])
+        face_skin_one = get_face_skin().detect(tensor_to_img(image), get_retinaface_detection(), [1, 2, 3, 4, 5, 10, 12, 13])
         return (face_skin_one,)
 
-class MaskDilateErode:
+class MaskDilateErodePM:
 
     @classmethod
     def INPUT_TYPES(s):
@@ -245,10 +218,7 @@ class MaskDilateErode:
         out_mask = Image.fromarray(np.uint8(cv2.dilate(tensor_to_np(mask), np.ones((96, 96), np.uint8), iterations=1) - cv2.erode(tensor_to_np(mask), np.ones((48, 48), np.uint8), iterations=1)))
         return (img_to_mask(out_mask),)
 
-class SkinRetouching:
-
-    def __init__(self):
-        self.skin_retouching = pipeline('skin-retouching-torch', model='damo/cv_unet_skin_retouching_torch', model_revision='v1.0.2')
+class SkinRetouchingPM:
 
     @classmethod
     def INPUT_TYPES(s):
@@ -261,13 +231,11 @@ class SkinRetouching:
     CATEGORY = "protrait/model"
 
     def skin_retouching_pass(self, image):
-        output_image = cv2.cvtColor(self.skin_retouching(tensor_to_img(image))[OutputKeys.OUTPUT_IMG], cv2.COLOR_BGR2RGB)
+        output_image = cv2.cvtColor(get_skin_retouching()(tensor_to_img(image))[OutputKeys.OUTPUT_IMG], cv2.COLOR_BGR2RGB)
         return (np_to_tensor(output_image),)
 
-class PortraitEnhancement:
+class PortraitEnhancementPM:
 
-    def __init__(self):
-        self.portrait_enhancement = pipeline(Tasks.image_portrait_enhancement, model='damo/cv_gpen_image-portrait-enhancement', model_revision='v1.0.0')
 
     @classmethod
     def INPUT_TYPES(s):
@@ -281,10 +249,10 @@ class PortraitEnhancement:
     CATEGORY = "protrait/model"
 
     def protrait_enhancement_pass(self, image):
-        output_image = cv2.cvtColor(self.portrait_enhancement(tensor_to_img(image))[OutputKeys.OUTPUT_IMG], cv2.COLOR_BGR2RGB)
+        output_image = cv2.cvtColor(get_portrait_enhancement()(tensor_to_img(image))[OutputKeys.OUTPUT_IMG], cv2.COLOR_BGR2RGB)
         return (np_to_tensor(output_image),)
 
-class ImageScaleShort:
+class ImageScaleShortPM:
 
     @classmethod
     def INPUT_TYPES(s):
@@ -311,7 +279,7 @@ class ImageScaleShort:
             input_image = input_image.resize([new_width, new_height], Image.Resampling.LANCZOS)
         return (img_to_tensor(input_image),)
 
-class ImageResizeTarget:
+class ImageResizeTargetPM:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {
@@ -331,7 +299,7 @@ class ImageResizeTarget:
         out = imagepi.resize([width, height], Image.Resampling.LANCZOS)
         return (img_to_tensor(out),)
 
-class GetImageInfo:
+class GetImageInfoPM:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {
