@@ -8,12 +8,12 @@ from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
 from .utils.face_process_utils import call_face_crop, color_transfer, Face_Skin
 from .utils.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask
+from .config import *
 import insightface
 from insightface.app import FaceAnalysis
-from insightface.data import get_image as ins_get_image
 
-# import pydevd_pycharm
-# pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
+import pydevd_pycharm
+pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
 
 class RetainFace:
     def __init__(self):
@@ -40,7 +40,9 @@ class RetainFace:
 class FaceFusionPM:
 
     def __init__(self):
-        self.image_face_fusion = pipeline(Tasks.image_face_fusion, model='damo/cv_unet-image-face-fusion_damo', model_revision='v1.3')
+        self.image_face_fusion = None
+        self.face_analysis = None
+        self.roop = None
 
     @classmethod
     def INPUT_TYPES(s):
@@ -55,18 +57,28 @@ class FaceFusionPM:
     CATEGORY = "protrait/model"
 
     def img_face_fusion(self, source_image, swap_image, mode):
-        result_image = None
         if mode == "ali":
+            if self.image_face_fusion is None:
+                self.image_face_fusion = pipeline(Tasks.image_face_fusion, model='damo/cv_unet-image-face-fusion_damo', model_revision='v1.3')
             source_image = tensor_to_img(source_image)
             swap_image = tensor_to_img(swap_image)
-            fusion_image = self.image_face_fusion(dict(template=source_image, user=source_image))[
+            fusion_image = self.image_face_fusion(dict(template=source_image, user=swap_image))[
                 OutputKeys.OUTPUT_IMG]
             # swap_face(target_img=output_image, source_img=roop_image, model="inswapper_128.onnx", upscale_options=UpscaleOptions())
             result_image = Image.fromarray(cv2.cvtColor(fusion_image, cv2.COLOR_BGR2RGB))
+            return (img_to_tensor(result_image),)
         else:
-            app = FaceAnalysis(name='buffalo_l')
-
-        return (img_to_tensor(fusion_image),)
+            if self.face_analysis is None:
+                self.face_analysis = FaceAnalysis(name='buffalo_l')
+            self.face_analysis.prepare(ctx_id=0, det_size=(640, 640))
+            if self.roop is None:
+                self.roop = insightface.model_zoo.get_model('inswapper_128.onnx', download=True, download_zip=True, root=root_path)
+            source_image = tensor_to_np(source_image)
+            faces = self.face_analysis.get(source_image)
+            swap_image = tensor_to_np(swap_image)
+            swap_face = self.face_analysis.get(swap_image)
+            result_image = self.roop.get(source_image, faces[0], swap_face[0], paste_back=True)
+            return (np_to_tensor(result_image),)
 
 class RatioMerge2Image:
     def __init__(self):
