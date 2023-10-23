@@ -19,6 +19,7 @@ If you have any questions or suggestions, you can reach us through:
 2. Renamed nodes to resolve conflicts with other plugins.
 3. Added "roop" model to the Facefusion PM node.
 4. Updated the workflow.
+5. Speed up the second model loading
 
 ## Currently Resolving
 1. Contacting modelscope to address Windows dependency issues.

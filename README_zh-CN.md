@@ -22,6 +22,7 @@ English | [简体中文](./README_zh-CN.md)
 2. 节点重命名解决与其他插件冲突问题
 3. Facefusion PM 节点增加 roop 模型
 4. 更新workflow
+5. 加速第二次的模型加载
 
 ## 正在解决
 1. 联系 modelscope 解决windows依赖问题
