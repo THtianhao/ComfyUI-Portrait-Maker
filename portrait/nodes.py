@@ -189,17 +189,23 @@ class FaceSkinPM:
     @classmethod
     def INPUT_TYPES(s):
         return {"required":
-                    {"image": ("IMAGE",), }
-                }
+            {
+                "image": ("IMAGE",),
+                "blur_edge": ("BOOLEAN", {"default": False, "label_on": "enabled", "label_off": "disabled"}),
+                "blur_threshold": ("INT", {"default": 32, "min": 0, "max": 64, "step": 1}),
+            },
+        }
 
     RETURN_TYPES = ("MASK",)
     FUNCTION = "face_skin_mask"
 
     CATEGORY = "protrait/model"
 
-    def face_skin_mask(self, image):
-        face_skin_one = get_face_skin().detect(tensor_to_img(image), get_retinaface_detection(), [1, 2, 3, 4, 5, 10, 12, 13])
-        return (face_skin_one,)
+    def face_skin_mask(self, image, blur_edge, blur_threshold):
+        face_skin_np = get_face_skin().detect(tensor_to_img(image), get_retinaface_detection(), [1, 2, 3, 4, 5, 10, 12, 13])
+        if blur_edge:
+            face_skin_np = cv2.blur(face_skin_np, (blur_threshold, blur_threshold))
+        return (np_to_mask(face_skin_np),)
 
 class MaskDilateErodePM:
 
@@ -235,7 +241,6 @@ class SkinRetouchingPM:
         return (np_to_tensor(output_image),)
 
 class PortraitEnhancementPM:
-
 
     @classmethod
     def INPUT_TYPES(s):

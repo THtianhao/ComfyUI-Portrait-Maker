@@ -533,4 +533,4 @@ class Face_Skin(object):
 
             # detect image
             total_mask[retinaface_box[1]:retinaface_box[3], retinaface_box[0]:retinaface_box[2], :] = sub_mask
-            return np_to_mask(total_mask)
+            return total_mask
