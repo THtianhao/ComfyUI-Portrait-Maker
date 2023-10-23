@@ -65,9 +65,10 @@ Easyphoto工作位置: [./workflow/easyphoto.json](./workflows/easyphoto.json )
 * RetainFace PM:使用Model Scope中的pipleline `damo/cv_resnet50_face-detection_retinaface`处理图像
 	* image：输入图像
 	* multi_user_facecrop_ratio：提取头像区域的倍数
-* FaceFusion PM:使用Model Scope中的pipleline `damo/cv_unet-image-face-fusion_damo`将两张图像进行融合
+* FaceFusion PM:使用Model Scope中的pipleline `damo/cv_unet-image-face-fusion_damo`将两张图像的人脸进行融合
 	* image：输入图像
 	* user_image：要融合的头像
+    * model: 使用ali的模型还是roop模型进行融合
 * RatioMerge2Image PM: 按照比例融合两张图片
 	* image1：输入的图像
 	* Image2：输入的图像

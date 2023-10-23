@@ -62,9 +62,10 @@ Click "Load" in the right panel of ComfyUI and select the ./workflow/easyphoto_w
 * RetainFace PM: Processes images using the pipeline `damo/cv_resnet50_face-detection_retinaface` from Model Scope
     * image: Input image
     * multi_user_facecrop_ratio: Multiple for extracting the face area
-* FaceFusion PM: Fuses two images using the pipeline `damo/cv_unet-image-face-fusion_damo` from Model Scope
+* FaceFusion PM: Fuses two face in the image using the pipeline `damo/cv_unet-image-face-fusion_damo` from Model Scope
     * image: Input image
     * user_image: Image to be fused
+    * model: use ali model or roop model for fusion
 * RatioMerge2Image PM: Merges two images according to a ratio
     * image1: Input image
     * Image2: Input image
