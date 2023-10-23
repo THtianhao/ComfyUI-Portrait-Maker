@@ -3,14 +3,14 @@ import os
 
 main_path = os.path.dirname(__file__)
 sys.path.append(main_path)
-from protrait.config import *
+from portrait.config import *
 
 import subprocess
 import threading
 
 import requests
 from tqdm import tqdm
-from protrait.nodes import *
+from portrait.nodes import *
 
 # import pydevd_pycharm
 # pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)

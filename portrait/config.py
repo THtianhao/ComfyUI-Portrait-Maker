@@ -1,9 +1,9 @@
 import os
 from folder_paths import folder_names_and_paths
+from .. import main_path
 
-root_path = os.path.dirname(__file__)
-utils_path = os.path.join(os.path.dirname(__file__), "utils")
-models_path = os.path.join(os.path.dirname(__file__), "models")
+utils_path = os.path.join(main_path, "utils")
+models_path = os.path.join(main_path, "models")
 # save_dirs
 urls = [
     "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/ChilloutMix-ni-fp16.safetensors",

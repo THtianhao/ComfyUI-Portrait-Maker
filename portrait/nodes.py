@@ -6,8 +6,8 @@ from PIL import Image
 from modelscope.outputs import OutputKeys
 from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
-from utils.face_process_utils import call_face_crop, color_transfer, Face_Skin
-from utils.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask
+from .utils.face_process_utils import call_face_crop, color_transfer, Face_Skin
+from .utils.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask
 import insightface
 from insightface.app import FaceAnalysis
 from insightface.data import get_image as ins_get_image
