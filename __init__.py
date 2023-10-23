@@ -38,7 +38,6 @@ DEFAULT_POSITIVE = '(cloth:1.7), (best quality), (realistic, photo-realistic:1.2
 DEFAULT_NEGATIVE = '(bags under the eyes:1.5), (Bags under eyes:1.5), (glasses:1.5), (naked:2.0), nude, (nsfw:2.0), breasts, penis, cum, (worst quality:2), (low quality:2), (normal quality:2), over red lips, hair, teeth, lowres, watermark, badhand, (normal quality:2), lowres, bad anatomy, bad hands, normal quality, mural,'
 
 sys.path.append(root_path)
-from portrait.config import *
 
 import subprocess
 import threading
