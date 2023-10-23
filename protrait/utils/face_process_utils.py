@@ -6,7 +6,7 @@ import torch.nn.functional as F
 import torchvision.transforms as transforms
 from PIL import Image
 from skimage import transform
-from protrait.img_utils import np_to_mask
+from img_utils import np_to_mask
 
 # import pydevd_pycharm
 # pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)

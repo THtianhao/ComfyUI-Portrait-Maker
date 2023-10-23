@@ -1,14 +1,17 @@
 import sys
-from scripts.config import *
-sys.path.append(root_path)
+import os
 
+main_path = os.path.dirname(__file__)
+sys.path.append(main_path)
+from protrait.config import *
 
 import subprocess
 import threading
 
 import requests
 from tqdm import tqdm
-from scripts.nodes import *
+from protrait.nodes import *
+
 # import pydevd_pycharm
 # pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
 
@@ -36,7 +39,6 @@ print("##  installing dependencies")
 requirements_path = os.path.join(root_path, "requirements.txt")
 run_script([sys.executable, '-s', '-m', 'pip', 'install', '-q', '-r', requirements_path])
 
-
 def urldownload_progressbar(url, file_path):
     response = requests.get(url, stream=True)
     total_size = int(response.headers.get('content-length', 0))
@@ -53,8 +55,8 @@ print("Start Setting weights")
 for url, filename in zip(urls, filenames):
     if os.path.exists(filename):
         continue
-    print(f"Start Downloading: {url} Download To {filename}" )
-    print(f"开始下载: {url} 下载到 {filename}" )
+    print(f"Start Downloading: {url} Download To {filename}")
+    print(f"开始下载: {url} 下载到 {filename}")
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     urldownload_progressbar(url, filename)
 
