@@ -1,6 +1,6 @@
 # [Portrait-Maker](https://github.com/THtianhao/ComfyUI-Portrait-Maker)
 This project is an adaptation of [EasyPhoto](https://github.com/aigc-apps/sd-webui-EasyPhoto), which breaks down the process of [EasyPhoto](https://github.com/aigc-apps/sd-webui-EasyPhoto) and will add a series of operations on human portraits in the future.
-![](./images/easyphoto.png)
+![](./images/easyphoto.jpg)
 
 English | [简体中文](./README_zh-CN.md)
 
@@ -15,9 +15,10 @@ If you have any questions or suggestions, you can reach us through:
 
 ## V1.1.0 Update
 1. faceskin adds blur option
-2. Add PM_FaceShapMatch node. See node introduction for details.
-3. Add PM_MakeUpTransfer node. See node introduction for details.
-3. Add a super-resolution model to the PM_PortraitEnhancement node. This super-resolution model can not highlight faces.
+2. Add PM_FaceShapMatch node. same as easyphot faceshap match
+3. Add PM_MakeUpTransfer node. same as easyphoto makeup transfer.
+4. Add a super-resolution model to the PM_PortraitEnhancement node. This super-resolution model can not highlight faces.
+5. Add v1.1.0 workflow
 
 ## V1.0.0 Update
 1. Added log for model downloads.

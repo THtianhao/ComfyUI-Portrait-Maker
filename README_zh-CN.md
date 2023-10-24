@@ -2,7 +2,7 @@
 
 这个项目改编于[EasyPhoto](https://github.com/aigc-apps/sd-webui-EasyPhoto)，对于[EasyPhoto](https://github.com/aigc-apps/sd-webui-EasyPhoto)进行了流程上的拆解，后续会加入其他项目处理人物头像上的系列操作。
 
-![](./images/easyphoto.png)
+![](./images/easyphoto.jpg)
 
 English | [简体中文](./README_zh-CN.md)
 
@@ -17,9 +17,10 @@ English | [简体中文](./README_zh-CN.md)
 
 ## v1.1.0 更新
 1. faceskin 增加模糊选项
-2. 增加 PM_FaceShapMatch节点 详情查看节点介绍
-3. 增加 PM_MakeUpTransfer节点 详情查看节点介绍
-3. PM_PortraitEnhancement节点增加一种超分模型，此超分模型可以对人脸不做高光
+2. 增加 PM_FaceShapMatch节点 与easyphoto的FaceshapMatch一致
+3. 增加 PM_MakeUpTransfer节点 与easyphoto的MakeupTransfer一致
+4. PM_PortraitEnhancement节点增加一种超分模型，此超分模型可以对人脸不做高光
+5. 增加v1.1.0 workflow
 
 ## v1.0.0 更新
 

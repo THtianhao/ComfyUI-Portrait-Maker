@@ -1,6 +1,6 @@
 {
   "last_node_id": 231,
-  "last_link_id": 419,
+  "last_link_id": 424,
   "nodes": [
     {
       "id": 50,
@@ -443,7 +443,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 79,
+      "order": 77,
       "mode": 0,
       "inputs": [
         {
@@ -486,7 +486,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 76,
+      "order": 74,
       "mode": 0,
       "inputs": [
         {
@@ -620,7 +620,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 75,
+      "order": 73,
       "mode": 0,
       "inputs": [
         {
@@ -663,7 +663,7 @@
         "1": 246
       },
       "flags": {},
-      "order": 78,
+      "order": 76,
       "mode": 0,
       "inputs": [
         {
@@ -724,7 +724,7 @@
         "1": 166
       },
       "flags": {},
-      "order": 77,
+      "order": 75,
       "mode": 0,
       "inputs": [
         {
@@ -793,7 +793,7 @@
         "1": 166
       },
       "flags": {},
-      "order": 80,
+      "order": 78,
       "mode": 0,
       "inputs": [
         {
@@ -856,7 +856,7 @@
         "1": 474.0000305175781
       },
       "flags": {},
-      "order": 81,
+      "order": 79,
       "mode": 0,
       "inputs": [
         {
@@ -904,33 +904,6 @@
         "normal",
         1
       ],
-      "color": "#323",
-      "bgcolor": "#535"
-    },
-    {
-      "id": 145,
-      "type": "PreviewImage",
-      "pos": [
-        4959.059430539544,
-        2873.60691902383
-      ],
-      "size": {
-        "0": 360.20330810546875,
-        "1": 542.2775268554688
-      },
-      "flags": {},
-      "order": 83,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "images",
-          "type": "IMAGE",
-          "link": 246
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "PreviewImage"
-      },
       "color": "#323",
       "bgcolor": "#535"
     },
@@ -1239,7 +1212,7 @@
         "1": 86
       },
       "flags": {},
-      "order": 66,
+      "order": 64,
       "mode": 0,
       "inputs": [
         {
@@ -1356,7 +1329,7 @@
         "1": 272.66497802734375
       },
       "flags": {},
-      "order": 68,
+      "order": 66,
       "mode": 0,
       "inputs": [
         {
@@ -1383,7 +1356,7 @@
         "1": 312.9284362792969
       },
       "flags": {},
-      "order": 70,
+      "order": 68,
       "mode": 0,
       "inputs": [
         {
@@ -1410,13 +1383,13 @@
         "1": 46
       },
       "flags": {},
-      "order": 60,
+      "order": 58,
       "mode": 0,
       "inputs": [
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 403
+          "link": 420
         },
         {
           "name": "box",
@@ -1483,7 +1456,7 @@
         "1": 313.27972412109375
       },
       "flags": {},
-      "order": 72,
+      "order": 70,
       "mode": 0,
       "inputs": [
         {
@@ -1510,7 +1483,7 @@
         "1": 46
       },
       "flags": {},
-      "order": 62,
+      "order": 60,
       "mode": 0,
       "inputs": [
         {
@@ -1554,7 +1527,7 @@
         "1": 311.90179443359375
       },
       "flags": {},
-      "order": 64,
+      "order": 62,
       "mode": 0,
       "inputs": [
         {
@@ -1813,51 +1786,6 @@
       "bgcolor": "#535"
     },
     {
-      "id": 144,
-      "type": "VAEDecode",
-      "pos": [
-        4652.0594305395425,
-        2881.6069190238295
-      ],
-      "size": {
-        "0": 210,
-        "1": 46
-      },
-      "flags": {},
-      "order": 82,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 244
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 245
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            246,
-            271,
-            312
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "VAEDecode"
-      },
-      "color": "#323",
-      "bgcolor": "#535"
-    },
-    {
       "id": 178,
       "type": "PreviewImage",
       "pos": [
@@ -1893,7 +1821,7 @@
       ],
       "size": {
         "0": 210,
-        "1": 26
+        "1": 58
       },
       "flags": {},
       "order": 110,
@@ -1919,6 +1847,9 @@
       "properties": {
         "Node name for S&R": "PM_PortraitEnhancement"
       },
+      "widgets_values": [
+        "pgen"
+      ],
       "color": "#2a363b",
       "bgcolor": "#3f5159"
     },
@@ -2061,13 +1992,13 @@
         "1": 66
       },
       "flags": {},
-      "order": 69,
+      "order": 67,
       "mode": 0,
       "inputs": [
         {
           "name": "origin_image",
           "type": "IMAGE",
-          "link": 402
+          "link": 421
         },
         {
           "name": "box_area",
@@ -2112,7 +2043,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 71,
+      "order": 69,
       "mode": 0,
       "inputs": [
         {
@@ -2158,7 +2089,7 @@
         "1": 325.4287414550781
       },
       "flags": {},
-      "order": 74,
+      "order": 72,
       "mode": 0,
       "inputs": [
         {
@@ -2185,7 +2116,7 @@
         "1": 78
       },
       "flags": {},
-      "order": 73,
+      "order": 71,
       "mode": 0,
       "inputs": [
         {
@@ -2378,7 +2309,7 @@
         "1": 332.3785095214844
       },
       "flags": {},
-      "order": 61,
+      "order": 59,
       "mode": 0,
       "inputs": [
         {
@@ -2672,7 +2603,7 @@
         {
           "name": "image",
           "type": "IMAGE",
-          "link": 271
+          "link": 423
         },
         {
           "name": "box",
@@ -2968,7 +2899,7 @@
         "1": 26
       },
       "flags": {},
-      "order": 65,
+      "order": 63,
       "mode": 0,
       "inputs": [
         {
@@ -3033,7 +2964,7 @@
         "1": 82
       },
       "flags": {},
-      "order": 63,
+      "order": 61,
       "mode": 0,
       "inputs": [
         {
@@ -3095,8 +3026,8 @@
       "id": 6,
       "type": "LoadImage",
       "pos": [
-        683,
-        370
+        249.94248304953703,
+        302.33370767033864
       ],
       "size": {
         "0": 303.5721130371094,
@@ -3301,7 +3232,7 @@
         "1": 289.9919128417969
       },
       "flags": {},
-      "order": 67,
+      "order": 65,
       "mode": 0,
       "inputs": [
         {
@@ -3459,10 +3390,10 @@
         2380,
         1020
       ],
-      "size": [
-        374.8711860380299,
-        444.2354070414972
-      ],
+      "size": {
+        "0": 374.8711853027344,
+        "1": 444.23541259765625
+      },
       "flags": {},
       "order": 44,
       "mode": 0,
@@ -3845,7 +3776,7 @@
         {
           "name": "origin_image",
           "type": "IMAGE",
-          "link": 312
+          "link": 424
         },
         {
           "name": "box_area",
@@ -3932,10 +3863,10 @@
         7570.006255877076,
         1602.40493563089
       ],
-      "size": [
-        210,
-        246
-      ],
+      "size": {
+        "0": 210,
+        "1": 246
+      },
       "flags": {},
       "order": 103,
       "mode": 0,
@@ -4353,95 +4284,28 @@
       "bgcolor": "#535"
     },
     {
-      "id": 61,
-      "type": "VAEDecode",
+      "id": 145,
+      "type": "PreviewImage",
       "pos": [
-        3798,
-        -70
+        4605,
+        2907
       ],
       "size": {
-        "0": 210,
-        "1": 46
+        "0": 360.20330810546875,
+        "1": 542.2775268554688
       },
       "flags": {},
-      "order": 55,
+      "order": 81,
       "mode": 0,
       "inputs": [
         {
-          "name": "samples",
-          "type": "LATENT",
-          "link": 79
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 142
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
+          "name": "images",
           "type": "IMAGE",
-          "links": [
-            82,
-            419
-          ],
-          "shape": 3,
-          "slot_index": 0
+          "link": 246
         }
       ],
       "properties": {
-        "Node name for S&R": "VAEDecode"
-      },
-      "color": "#323",
-      "bgcolor": "#535"
-    },
-    {
-      "id": 224,
-      "type": "PM_FaceShapMatch",
-      "pos": [
-        4244,
-        -66
-      ],
-      "size": {
-        "0": 229.20001220703125,
-        "1": 66
-      },
-      "flags": {},
-      "order": 58,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "source_image",
-          "type": "IMAGE",
-          "link": 419
-        },
-        {
-          "name": "match_image",
-          "type": "IMAGE",
-          "link": 400
-        },
-        {
-          "name": "face_box",
-          "type": "BOX",
-          "link": 398
-        }
-      ],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            401,
-            402,
-            403
-          ],
-          "shape": 3,
-          "slot_index": 0
-        }
-      ],
-      "properties": {
-        "Node name for S&R": "PM_FaceShapMatch"
+        "Node name for S&R": "PreviewImage"
       },
       "color": "#323",
       "bgcolor": "#535"
@@ -4450,8 +4314,8 @@
       "id": 223,
       "type": "Reroute",
       "pos": [
-        4088,
-        -28
+        5004,
+        2846
       ],
       "size": [
         75,
@@ -4485,18 +4349,157 @@
       "bgcolor": "#535"
     },
     {
+      "id": 61,
+      "type": "VAEDecode",
+      "pos": [
+        3798,
+        -70
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 55,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 79
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 142
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            82,
+            420,
+            421
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 224,
+      "type": "PM_FaceShapMatch",
+      "pos": [
+        5097,
+        2791
+      ],
+      "size": {
+        "0": 229.20001220703125,
+        "1": 66
+      },
+      "flags": {},
+      "order": 82,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "source_image",
+          "type": "IMAGE",
+          "link": 422
+        },
+        {
+          "name": "match_image",
+          "type": "IMAGE",
+          "link": 400
+        },
+        {
+          "name": "face_box",
+          "type": "BOX",
+          "link": 398
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            401,
+            423,
+            424
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PM_FaceShapMatch"
+      },
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 144,
+      "type": "VAEDecode",
+      "pos": [
+        4678,
+        2799
+      ],
+      "size": {
+        "0": 210,
+        "1": 46
+      },
+      "flags": {},
+      "order": 80,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 244
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 245
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            246,
+            422
+          ],
+          "shape": 3,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
       "id": 225,
       "type": "PreviewImage",
       "pos": [
-        4148,
-        101
+        5014,
+        2933
       ],
-      "size": [
-        370.333740234375,
-        482.09925079345703
-      ],
+      "size": {
+        "0": 370.333740234375,
+        "1": 482.0992431640625
+      },
       "flags": {},
-      "order": 59,
+      "order": 83,
       "mode": 0,
       "inputs": [
         {
@@ -5202,14 +5205,6 @@
       "MASK"
     ],
     [
-      271,
-      144,
-      0,
-      159,
-      0,
-      "IMAGE"
-    ],
-    [
       272,
       159,
       0,
@@ -5383,14 +5378,6 @@
       0,
       168,
       2,
-      "IMAGE"
-    ],
-    [
-      312,
-      144,
-      0,
-      168,
-      0,
       "IMAGE"
     ],
     [
@@ -5738,22 +5725,6 @@
       "IMAGE"
     ],
     [
-      402,
-      224,
-      0,
-      131,
-      0,
-      "IMAGE"
-    ],
-    [
-      403,
-      224,
-      0,
-      112,
-      0,
-      "IMAGE"
-    ],
-    [
       414,
       195,
       0,
@@ -5794,10 +5765,42 @@
       "IMAGE"
     ],
     [
-      419,
+      420,
       61,
       0,
+      112,
+      0,
+      "IMAGE"
+    ],
+    [
+      421,
+      61,
+      0,
+      131,
+      0,
+      "IMAGE"
+    ],
+    [
+      422,
+      144,
+      0,
       224,
+      0,
+      "IMAGE"
+    ],
+    [
+      423,
+      224,
+      0,
+      159,
+      0,
+      "IMAGE"
+    ],
+    [
+      424,
+      224,
+      0,
+      168,
       0,
       "IMAGE"
     ]
@@ -5806,8 +5809,8 @@
     {
       "title": "Roop Image",
       "bounding": [
-        672,
-        295,
+        239,
+        227,
         333,
         410
       ],
