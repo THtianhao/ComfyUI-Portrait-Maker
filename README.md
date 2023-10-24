@@ -13,8 +13,13 @@ If you have any questions or suggestions, you can reach us through:
 - QQ Group: 10419777
 - WeChat Group: <img src="./images/wechat.jpg" width="200">
 
+## V1.1.0 Update
+1. faceskin adds blur option
+2. Add PM_FaceShapMatch node. See node introduction for details.
+3. Add PM_MakeUpTransfer node. See node introduction for details.
+3. Add a super-resolution model to the PM_PortraitEnhancement node. This super-resolution model can not highlight faces.
 
-## Recent Updates
+## V1.0.0 Update
 1. Added log for model downloads.
 2. Renamed nodes to resolve conflicts with other plugins.
 3. Added "roop" model to the Facefusion PM node.
@@ -59,42 +64,65 @@ Click "Load" in the right panel of ComfyUI and select the ./workflow/easyphoto_w
 
 ## Node Introduction
 
-* RetainFace PM: Processes images using the pipeline `damo/cv_resnet50_face-detection_retinaface` from Model Scope
-    * image: Input image
-    * multi_user_facecrop_ratio: Multiple for extracting the face area
-* FaceFusion PM: Fuses two face in the image using the pipeline `damo/cv_unet-image-face-fusion_damo` from Model Scope
-    * image: Input image
-    * user_image: Image to be fused
-    * model: use ali model or roop model for fusion
-* RatioMerge2Image PM: Merges two images according to a ratio
-    * image1: Input image
-    * Image2: Input image
-    * fusion_rate: Fusion ratio, maximum is 1, larger values lean towards image1
-* MaskMerge2Image PM: Merges images using a mask
-    * image1: Input image
-    * image2: Input image
-    * mask: Mask to be replaced
-* ReplaceBoxImg PM: Replaces the image in a box area
-    * origin_image: Original image
-    * box_area: Area
-    * replace_image: Image to be replaced in the area (resolution of box_area and replace_image must match)
-* ExpandMaskFaceWidth PM: Proportionally expands the width of the mask
-    * mask: Input mask
-    * box: Box corresponding to the mask
-    * expand_width: Width expansion ratio based on the width of the box
-* BoxCropImage PM: Crops images using a box
-* ColorTransfer PM: Color transfer for images
-* FaceSkin PM: Extracts the mask of the facial part of the image
-* MaskDilateErode PM: Dilates and erodes the mask
-* SkinRetouching PM: Processes images using the pipeline `damo/cv_gpen_image-portrait-enhancement` from Model Scope
-* PortraitEnhancement PM: Processes images using the pipeline `damo/cv_gpen_image-portrait-enhancement` from Model Scope
-* ImageResizeTarget PM: Resizes images to a target width and height
-* ImageScaleShort PM: Reduces the width and height of the image's shorter side
-    * image: Input image
-    * size: Length to be scaled (proportionally scaled based on the shorter side of width and height)
-    * crop_face: Width and height must be multiples of 32 after scaling
-* GetImageInfo PM: Extracts the width and height of the image
+* RetainFace PM: Perform matting using models from Model Scope. [Link](https://www.modelscope.cn/models/damo/cv_resnet50_face-detection_retinaface/summary)
+  * image: Input image
+  * multi_user_facecrop_ratio: Multiplicative factor for extracting the head region.
 
+* FaceFusion PM: Merge faces from two images.
+  * image: Input image
+  * user_image: The image with the face to be merged.
+  * model: Choose between Ali's model or Roop's model for merging.
+    * ali: [Link](https://www.modelscope.cn/models/damo/cv_unet-image-face-fusion_damo/summary)
+    * roop: [Link](https://github.com/deepinsight/insightface)
+
+* RatioMerge2Image PM: Merge two images according to a specified ratio.
+  * image1: First input image
+  * image2: Second input image
+  * fusion_rate: Fusion ratio, ranging from 0 to 1, where higher values favor image1.
+
+* MaskMerge2Image PM: Merge images using a mask.
+  * image1: First input image
+  * image2: Second input image
+  * mask: The mask to be applied for replacement.
+
+* ReplaceBoxImg PM: Replace the image inside a specified box area.
+  * origin_image: The original image
+  * box_area: The area to be replaced
+  * replace_image: The image to replace (ensure the resolution matches box_area)
+
+* ExpandMaskFaceWidth PM: Proportionally expand the width of the mask.
+  * mask: Input mask
+  * box: Corresponding box of the mask
+  * expand_width: The width expansion ratio, based on the box's width.
+
+* BoxCropImage PM: Crop an image using a box.
+
+* ColorTransfer PM: Perform color transfer on images.
+
+* FaceSkin PM: Extract the mask of the facial region from an image.
+
+* MaskDilateErode PM: Dilate and erode masks.
+
+* Skin Retouching PM: Apply skin retouching using the following model.
+  * [Link](https://www.modelscope.cn/models/damo/cv_unet_skin-retouching/summary)
+
+* Portrait Enhancement PM: Process images using the following model.
+  * model
+    * gpen: [Link](https://www.modelscope.cn/models/damo/cv_gpen_image-portrait-enhancement/summary)
+    * real_gan: [Link](https://www.modelscope.cn/models/bubbliiiing/cv_rrdb_image-super-resolution_x2/summary)
+
+* ImageResizeTarget PM: Resize images to a target width and height.
+
+* ImageScaleShort PM: Reduce the smaller dimension of an image proportionally.
+  * image: Input image
+  * size: Desired length for resizing (maintains the aspect ratio)
+  * crop_face: Ensure the resulting width and height are multiples of 32.
+
+* GetImageInfo PM: Extract the width and height of an image.
+
+* Face Shape Match PM: Apply a certain level of fusion between the diffused image and the original image to reduce differences around the face.
+
+* Makeup Transfer PM: Use a GAN network model to perform makeup transfer.
 ## Contribution
 
 If you find any issues or have suggestions for improvement, feel free to contribute. Follow these steps:
