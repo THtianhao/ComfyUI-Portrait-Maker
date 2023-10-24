@@ -13,6 +13,12 @@ def img_to_tensor(input):
     tensor = torch.from_numpy(image)[None,]
     return tensor
 
+def img_to_np(input):
+    i = ImageOps.exif_transpose(input)
+    image = i.convert("RGB")
+    image_np = np.array(image).astype(np.float32)
+    return image_np
+
 def img_to_mask(input):
     i = ImageOps.exif_transpose(input)
     image = i.convert("RGB")

@@ -15,8 +15,13 @@ English | [简体中文](./README_zh-CN.md)
 - QQ 群：10419777
 - 微信群： <img src="./images/wechat.jpg" width="200">
 
+## v1.1.0 更新
+1. faceskin 增加模糊选项
+2. 增加 PM_FaceShapMatch节点 详情查看节点介绍
+3. 增加 PM_MakeUpTransfer节点 详情查看节点介绍
+3. PM_PortraitEnhancement节点增加一种超分模型，此超分模型可以对人脸不做高光
 
-## 近期更新v1.0.0
+## v1.0.0 更新
 
 1. 增加模型下载的log
 2. 节点重命名解决与其他插件冲突问题
@@ -24,10 +29,8 @@ English | [简体中文](./README_zh-CN.md)
 4. 更新workflow
 5. 加速第二次的模型加载
 
-## 正在开发v1.1.0
-1. 人脸mask模糊
-2. 人脸换妆容
-3. 人脸脸型的迁移
+## 正在解决
+1. 联系 modelscope 解决windows依赖问题
 
 
 ## 安装
@@ -64,13 +67,15 @@ Easyphoto工作位置: [./workflow/easyphoto.json](./workflows/easyphoto.json )
 
 ## 节点介绍
 
-* RetainFace PM:使用Model Scope中的pipleline `damo/cv_resnet50_face-detection_retinaface`处理图像
+* RetainFace PM:使用Model Scope中的模型进行抠图 [链接](https://www.modelscope.cn/models/damo/cv_resnet50_face-detection_retinaface/summary)
 	* image：输入图像
 	* multi_user_facecrop_ratio：提取头像区域的倍数
-* FaceFusion PM:使用Model Scope中的pipleline `damo/cv_unet-image-face-fusion_damo`将两张图像的人脸进行融合
+* FaceFusion PM:将两张图像的人脸进行融合
 	* image：输入图像
 	* user_image：要融合的头像
     * model: 使用ali的模型还是roop模型进行融合
+      * ali：[链接](https://www.modelscope.cn/models/damo/cv_unet-image-face-fusion_damo/summary)
+      * roop: [链接](https://github.com/deepinsight/insightface)
 * RatioMerge2Image PM: 按照比例融合两张图片
 	* image1：输入的图像
 	* Image2：输入的图像
@@ -91,14 +96,20 @@ Easyphoto工作位置: [./workflow/easyphoto.json](./workflows/easyphoto.json )
 * ColorTransfer PM:对图片进行颜色迁移
 * FaceSkin PM:提取图片中人脸的部分的Mask
 * MaskDilateErode PM: 对Mask进行膨胀与腐蚀
-* SkinRetouching PM:使用Model Scope中的pipleline `damo/cv_gpen_image-portrait-enhancement`处理图像
-* PortraitEnhancement PM:使用Model Scope中的pipleline `damo/cv_gpen_image-portrait-enhancement`处理图像
+* SkinRetouching PM:使用以下模型进行皮肤美化
+  * [链接](https://www.modelscope.cn/models/damo/cv_unet_skin-retouching/summary)
+* PortraitEnhancement PM:使用以下模型处理图像
+  * model
+    * gpen : [链接](https://www.modelscope.cn/models/damo/cv_gpen_image-portrait-enhancement/summary)
+    * real_gan:[链接](https://www.modelscope.cn/models/bubbliiiing/cv_rrdb_image-super-resolution_x2/summary)
 * ImageResizeTarget PM:将图片缩放到目标宽高
 * ImageScaleShort PM: 将图片的宽高中小的部分缩减到
 	* image：输入图像
 	* size：要缩放的长度（按照宽高中最短的一边进行比例缩放）
 	* crop_face：缩放后宽高要以32为倍数
 * GetImageInfo PM: 提取图片的宽高
+* FaceShapMatchPM: 扩散后的图片和原图片进行一定的融合，减少脸旁边的差异
+* MakeUpTransferPM: 使用gan网络模型对妆容进行一定的迁移
 
 ## 贡献
 

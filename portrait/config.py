@@ -17,7 +17,10 @@ urls = [
     "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/hand_pose_model.pth",
     "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/vae-ft-mse-840000-ema-pruned.ckpt",
     "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/face_skin.pth",
-    "https://huggingface.co/ezioruan/inswapper_128.onnx/resolve/main/inswapper_128.onnx"
+    "https://huggingface.co/ezioruan/inswapper_128.onnx/resolve/main/inswapper_128.onnx",
+    "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/face_landmarks.pth",
+    "https://pai-aigc-photog.oss-cn-hangzhou.aliyuncs.com/webui/makeup_transfer.pth",
+
 ]
 filenames = [
     os.path.join(folder_names_and_paths['checkpoints'][0][0], "Chilloutmix-Ni-pruned-fp16-fix.safetensors"),
@@ -32,6 +35,9 @@ filenames = [
     os.path.join(folder_names_and_paths['vae'][0][0], "vae-ft-mse-840000-ema-pruned.ckpt"),
     os.path.join(models_path, "face_skin.pth"),
     os.path.join(models_path, "inswapper_128.onnx"),
+    os.path.join(models_path, "face_landmarks.pth"),
+    os.path.join(models_path, "makeup_transfer.pth"),
+
 ]
 # prompts
 validation_prompt = "easyphoto_face, easyphoto, 1person"

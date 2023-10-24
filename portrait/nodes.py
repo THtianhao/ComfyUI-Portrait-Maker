@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 from modelscope.outputs import OutputKeys
 from .utils.face_process_utils import call_face_crop, color_transfer, Face_Skin
-from .utils.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask
+from .utils.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask, img_to_np
 from .model_holder import *
 
 # import pydevd_pycharm
@@ -13,7 +13,7 @@ class RetinaFacePM:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {"image": ("IMAGE",),
-                             "multi_user_facecrop_ratio": ("FLOAT", {"default": 1, "min": 0, "max": 10, "step": 0.1})
+                             "multi_user_facecrop_ratio": ("FLOAT", {"default": 1, "min": 0, "max": 10, "step": 0.01})
                              }}
 
     RETURN_TYPES = ("IMAGE", "MASK", "BOX")
@@ -189,17 +189,24 @@ class FaceSkinPM:
     @classmethod
     def INPUT_TYPES(s):
         return {"required":
-                    {"image": ("IMAGE",), }
-                }
+            {
+                "image": ("IMAGE",),
+                "blur_edge": ("BOOLEAN", {"default": False, "label_on": "enabled", "label_off": "disabled"}),
+                "blur_threshold": ("INT", {"default": 32, "min": 0, "max": 64, "step": 1}),
+            },
+        }
 
     RETURN_TYPES = ("MASK",)
     FUNCTION = "face_skin_mask"
 
     CATEGORY = "protrait/model"
 
-    def face_skin_mask(self, image):
-        face_skin_one = get_face_skin().detect(tensor_to_img(image), get_retinaface_detection(), [1, 2, 3, 4, 5, 10, 12, 13])
-        return (face_skin_one,)
+    def face_skin_mask(self, image, blur_edge, blur_threshold):
+        face_skin_img = get_face_skin()(tensor_to_img(image), get_retinaface_detection(), [[1, 2, 3, 4, 5, 10, 12, 13]])[0]
+        face_skin_np = img_to_np(face_skin_img)
+        if blur_edge:
+            face_skin_np = cv2.blur(face_skin_np, (blur_threshold, blur_threshold))
+        return (np_to_mask(face_skin_np),)
 
 class MaskDilateErodePM:
 
@@ -236,20 +243,25 @@ class SkinRetouchingPM:
 
 class PortraitEnhancementPM:
 
-
     @classmethod
     def INPUT_TYPES(s):
         return {"required":
-                    {"image": ("IMAGE",), }
-                }
+            {
+                "image": ("IMAGE",),
+                "model": (["pgen", "real_gan"],),
+            }
+        }
 
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "protrait_enhancement_pass"
 
     CATEGORY = "protrait/model"
 
-    def protrait_enhancement_pass(self, image):
-        output_image = cv2.cvtColor(get_portrait_enhancement()(tensor_to_img(image))[OutputKeys.OUTPUT_IMG], cv2.COLOR_BGR2RGB)
+    def protrait_enhancement_pass(self, image, model):
+        if model == "pgen":
+            output_image = cv2.cvtColor(get_portrait_enhancement()(tensor_to_img(image))[OutputKeys.OUTPUT_IMG], cv2.COLOR_BGR2RGB)
+        elif model == "real_gan":
+            output_image = cv2.cvtColor(get_real_gan_sr()(tensor_to_img(image))[OutputKeys.OUTPUT_IMG], cv2.COLOR_BGR2RGB)
         return (np_to_tensor(output_image),)
 
 class ImageScaleShortPM:
@@ -317,3 +329,60 @@ class GetImageInfoPM:
         width = image.shape[2]
         height = image.shape[1]
         return (width, height)
+
+class MakeUpTransferPM:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "source_image": ("IMAGE",),
+            "makeup_image": ("IMAGE",),
+        }}
+
+    RETURN_TYPES = ("IMAGE",)
+
+    FUNCTION = "makeup_transfer"
+
+    CATEGORY = "protrait/model"
+
+    def makeup_transfer(self, source_image, makeup_image):
+        source_image = tensor_to_img(source_image).resize([256, 256])
+        makeup_image = tensor_to_img(makeup_image).resize([256, 256])
+        result = get_pagan_interface().transfer(source_image, makeup_image)
+        return (img_to_tensor(result),)
+
+class FaceShapMatchPM:
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "source_image": ("IMAGE",),
+            "match_image": ("IMAGE",),
+            "face_box": ("BOX",),
+        }}
+
+    RETURN_TYPES = ("IMAGE",)
+
+    FUNCTION = "faceshap_match"
+
+    CATEGORY = "protrait/model"
+
+    def faceshap_match(self, source_image, match_image, face_box):
+        # detect face area
+        source_image = tensor_to_img(source_image)
+        match_image = tensor_to_img(match_image)
+        face_skin_mask = get_face_skin()(source_image, get_retinaface_detection(), needs_index=[[1, 2, 3, 4, 5, 7, 8, 10, 11, 12, 13]])[0]
+        face_width = face_box[2] - face_box[0]
+        kernel_size = np.ones((int(face_width // 10), int(face_width // 10)), np.uint8)
+
+        # Fill small holes with a close operation
+        face_skin_mask = Image.fromarray(np.uint8(cv2.morphologyEx(np.array(face_skin_mask), cv2.MORPH_CLOSE, kernel_size)))
+
+        # Use dilate to reconstruct the surrounding area of the face
+        face_skin_mask = Image.fromarray(np.uint8(cv2.dilate(np.array(face_skin_mask), kernel_size, iterations=1)))
+        face_skin_mask = cv2.blur(np.float32(face_skin_mask), (32, 32)) / 255
+
+        # paste back to photo, Using I2I generation controlled solely by OpenPose, even with a very small denoise amplitude,
+        # still carries the risk of introducing NSFW and global incoherence.!!! important!!!
+        input_image_uint8 = np.array(source_image) * face_skin_mask + np.array(match_image) * (1 - face_skin_mask)
+
+        return (np_to_tensor(input_image_uint8),)
