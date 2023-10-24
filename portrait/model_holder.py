@@ -15,6 +15,7 @@ roop = None
 skin_retouching = None
 portrait_enhancement = None
 psgan_interface = None
+real_gan_sr = None
 
 def get_retinaface_detection():
     global retinaface_detection
@@ -57,6 +58,12 @@ def get_portrait_enhancement():
     if portrait_enhancement is None:
         portrait_enhancement = pipeline(Tasks.image_portrait_enhancement, model='damo/cv_gpen_image-portrait-enhancement', model_revision='v1.0.0')
     return portrait_enhancement
+
+def get_real_gan_sr():
+    global real_gan_sr
+    if real_gan_sr is None:
+        real_gan_sr = pipeline('image-super-resolution-x2', model='bubbliiiing/cv_rrdb_image-super-resolution_x2', model_revision="v1.0.2")
+    return real_gan_sr
 
 def get_pagan_interface():
     global psgan_interface

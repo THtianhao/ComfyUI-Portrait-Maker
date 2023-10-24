@@ -246,16 +246,22 @@ class PortraitEnhancementPM:
     @classmethod
     def INPUT_TYPES(s):
         return {"required":
-                    {"image": ("IMAGE",), }
-                }
+            {
+                "image": ("IMAGE",),
+                "model": (["pgen", "real_gan"],),
+            }
+        }
 
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "protrait_enhancement_pass"
 
     CATEGORY = "protrait/model"
 
-    def protrait_enhancement_pass(self, image):
-        output_image = cv2.cvtColor(get_portrait_enhancement()(tensor_to_img(image))[OutputKeys.OUTPUT_IMG], cv2.COLOR_BGR2RGB)
+    def protrait_enhancement_pass(self, image, model):
+        if model == "pgen":
+            output_image = cv2.cvtColor(get_portrait_enhancement()(tensor_to_img(image))[OutputKeys.OUTPUT_IMG], cv2.COLOR_BGR2RGB)
+        elif model == "real_gan":
+            output_image = cv2.cvtColor(get_real_gan_sr()(tensor_to_img(image))[OutputKeys.OUTPUT_IMG], cv2.COLOR_BGR2RGB)
         return (np_to_tensor(output_image),)
 
 class ImageScaleShortPM:
