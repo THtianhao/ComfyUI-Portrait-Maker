@@ -496,19 +496,27 @@ class Face_Skin(object):
         self.model.load_state_dict(torch.load(model_path, map_location='cpu'))
         self.model.eval()
 
+        self.cuda = torch.cuda.is_available()
+        if self.cuda:
+            self.model.cuda()
+
         # transform for input image
         self.trans = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize((0.485, 0.456, 0.406), (0.229, 0.224, 0.225)),
         ])
 
-    def detect(self, image, retinaface_detection, needs_index=[12, 13]):
+    # index => label
+    # 1:'skin', 2:'left_brow', 3:'right_brow', 4:'left_eye', 5:'right_eye', 6:'eye_g', 7:'left_ear', 8:'right_ear',
+    # 9:'ear_r', 10:'nose', 11:'mouth', 12:'upper_lip', 13:'low_lip', 14:'neck', 15:'neck_l', 16:'cloth',
+    # 17:'hair', 18:'hat'
+    def __call__(self, image, retinaface_detection, needs_index=[[12, 13]]):
         # needs_index 12, 13 means seg the lip
         with torch.no_grad():
             total_mask = np.zeros_like(np.uint8(image))
 
             # detect image
-            retinaface_boxes, _, _, _ = call_face_crop(retinaface_detection, image, 13, prefix="tmp")
+            retinaface_boxes, _, _, _ = call_face_crop(retinaface_detection, image, 1.5, prefix="tmp")
             retinaface_box = retinaface_boxes[0]
 
             # sub_face for seg skin
@@ -520,17 +528,21 @@ class Face_Skin(object):
 
             torch_img = self.trans(PIL_img)
             torch_img = torch.unsqueeze(torch_img, 0)
-
+            if self.cuda:
+                torch_img = torch_img.cuda()
             out = self.model(torch_img)[0]
             model_mask = out.squeeze(0).cpu().numpy().argmax(0)
 
-            sub_mask = np.zeros_like(model_mask)
-            for index in needs_index:
-                sub_mask += np.uint8(model_mask == index)
+            masks = []
+            for _needs_index in needs_index:
+                total_mask = np.zeros_like(np.uint8(image))
+                sub_mask = np.zeros_like(model_mask)
+                for index in _needs_index:
+                    sub_mask += np.uint8(model_mask == index)
 
-            sub_mask = np.clip(sub_mask, 0, 1) * 255
-            sub_mask = np.tile(np.expand_dims(cv2.resize(np.uint8(sub_mask), (image_w, image_h)), -1), [1, 1, 3])
+                sub_mask = np.clip(sub_mask, 0, 1) * 255
+                sub_mask = np.tile(np.expand_dims(cv2.resize(np.uint8(sub_mask), (image_w, image_h)), -1), [1, 1, 3])
+                total_mask[retinaface_box[1]:retinaface_box[3], retinaface_box[0]:retinaface_box[2], :] = sub_mask
+                masks.append(Image.fromarray(np.uint8(total_mask)))
 
-            # detect image
-            total_mask[retinaface_box[1]:retinaface_box[3], retinaface_box[0]:retinaface_box[2], :] = sub_mask
-            return total_mask
+            return masks

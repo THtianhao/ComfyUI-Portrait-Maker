@@ -1,5 +1,6 @@
 import sys
 import os
+
 main_path = os.path.dirname(__file__)
 sys.path.append(main_path)
 
@@ -74,6 +75,7 @@ NODE_CLASS_MAPPINGS = {
     "PM_ImageScaleShort": ImageScaleShortPM,
     "PM_ImageResizeTarget": ImageResizeTargetPM,
     "PM_GetImageInfo": GetImageInfoPM,
+    "PM_MakeUpTransfer": MakeUpTransferPM,
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
     "PM_RetinaFace": "RetinaFace PM",
@@ -91,6 +93,7 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "PM_ImageScaleShort": "ImageScaleShort PM",
     "PM_ImageResizeTarget": "ImageResizeTarget PM",
     "PM_GetImageInfo": "GetImageInfo PM",
+    "PM_MakeUpTransfer": "MakeUpTransfer PM",
 }
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']

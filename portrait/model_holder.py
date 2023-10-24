@@ -3,6 +3,7 @@ from modelscope.utils.constant import Tasks
 import insightface
 from insightface.app import FaceAnalysis
 from .utils.face_process_utils import Face_Skin
+from .utils.psgan_utils import PSGAN_Inference
 
 from .config import *
 
@@ -13,6 +14,7 @@ face_skin = None
 roop = None
 skin_retouching = None
 portrait_enhancement = None
+psgan_interface = None
 
 def get_retinaface_detection():
     global retinaface_detection
@@ -55,3 +57,11 @@ def get_portrait_enhancement():
     if portrait_enhancement is None:
         portrait_enhancement = pipeline(Tasks.image_portrait_enhancement, model='damo/cv_gpen_image-portrait-enhancement', model_revision='v1.0.0')
     return portrait_enhancement
+
+def get_pagan_interface():
+    global psgan_interface
+    if psgan_interface is None:
+        face_landmarks_model_path = os.path.join(models_path, "face_landmarks.pth")
+        makeup_transfer_model_path = os.path.join(models_path, "makeup_transfer.pth")
+        psgan_interface = PSGAN_Inference("cuda", makeup_transfer_model_path, get_retinaface_detection(), get_face_skin(), face_landmarks_model_path)
+    return psgan_interface

@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 from modelscope.outputs import OutputKeys
 from .utils.face_process_utils import call_face_crop, color_transfer, Face_Skin
-from .utils.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask
+from .utils.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask, img_to_np
 from .model_holder import *
 
 # import pydevd_pycharm
@@ -13,7 +13,7 @@ class RetinaFacePM:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {"image": ("IMAGE",),
-                             "multi_user_facecrop_ratio": ("FLOAT", {"default": 1, "min": 0, "max": 10, "step": 0.1})
+                             "multi_user_facecrop_ratio": ("FLOAT", {"default": 1, "min": 0, "max": 10, "step": 0.01})
                              }}
 
     RETURN_TYPES = ("IMAGE", "MASK", "BOX")
@@ -202,7 +202,8 @@ class FaceSkinPM:
     CATEGORY = "protrait/model"
 
     def face_skin_mask(self, image, blur_edge, blur_threshold):
-        face_skin_np = get_face_skin().detect(tensor_to_img(image), get_retinaface_detection(), [1, 2, 3, 4, 5, 10, 12, 13])
+        face_skin_img = get_face_skin()(tensor_to_img(image), get_retinaface_detection(), [[1, 2, 3, 4, 5, 10, 12, 13]])[0]
+        face_skin_np = img_to_np(face_skin_img)
         if blur_edge:
             face_skin_np = cv2.blur(face_skin_np, (blur_threshold, blur_threshold))
         return (np_to_mask(face_skin_np),)
@@ -322,3 +323,23 @@ class GetImageInfoPM:
         width = image.shape[2]
         height = image.shape[1]
         return (width, height)
+
+class MakeUpTransferPM:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required": {
+            "source_image": ("IMAGE",),
+            "makeup_image": ("IMAGE",),
+        }}
+
+    RETURN_TYPES = ("IMAGE",)
+
+    FUNCTION = "makeup_transfer"
+
+    CATEGORY = "protrait/model"
+
+    def makeup_transfer(self, source_image, makeup_image):
+        source_image = tensor_to_img(source_image).resize([256, 256])
+        makeup_image = tensor_to_img(makeup_image).resize([256, 256])
+        result = get_pagan_interface().transfer(source_image, makeup_image)
+        return (img_to_tensor(result),)
