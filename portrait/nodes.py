@@ -46,6 +46,14 @@ class FaceFusionPM:
 
     CATEGORY = "protrait/model"
 
+    def resize(self, tensor):
+        image = tensor_to_img(tensor)
+        short_side = max(image.width, image.height)
+        resize = float(short_side / 640)
+        new_size = (int(image.width // resize), int(image.height // resize))
+        resize_image = image.resize(new_size, Image.Resampling.LANCZOS)
+        return img_to_np(resize_image)
+
     def img_face_fusion(self, source_image, swap_image, mode):
         if mode == "ali":
             source_image = tensor_to_img(source_image)
@@ -55,12 +63,24 @@ class FaceFusionPM:
             result_image = Image.fromarray(cv2.cvtColor(fusion_image, cv2.COLOR_BGR2RGB))
             return (img_to_tensor(result_image),)
         else:
+            width, height = source_image.shape[2], source_image.shape[1]
+            need_resize = False
+            source_np = tensor_to_np(source_image)
+            swap_np = tensor_to_np(swap_image)
+            if source_image.shape[2] > 640 or source_image.shape[1] > 640:
+                source_np = self.resize(source_image)
+                need_resize = True
+            if swap_image.shape[2] > 640 or swap_image.shape[1] > 640:
+                swap_np = self.resize(swap_image)
             get_face_analysis().prepare(ctx_id=0, det_size=(640, 640))
-            source_image = tensor_to_np(source_image)
-            faces = get_face_analysis().get(source_image)
-            swap_image = tensor_to_np(swap_image)
-            swap_face = get_face_analysis().get(swap_image)
-            result_image = get_roop().get(source_image, faces[0], swap_face[0], paste_back=True)
+            faces = get_face_analysis().get(source_np)
+            swap_faces = get_face_analysis().get(swap_np)
+            result_image = get_roop().get(source_np, faces[0], swap_faces[0], paste_back=True)
+            if need_resize:
+                image = Image.fromarray(result_image)
+                new_size = width, height
+                result_image = image.resize(new_size, Image.Resampling.LANCZOS)
+                result_image = img_to_np(result_image)
             return (np_to_tensor(result_image),)
 
 class RatioMerge2ImagePM:
