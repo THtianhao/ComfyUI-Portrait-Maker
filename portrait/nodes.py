@@ -13,7 +13,8 @@ class RetinaFacePM:
     @classmethod
     def INPUT_TYPES(s):
         return {"required": {"image": ("IMAGE",),
-                             "multi_user_facecrop_ratio": ("FLOAT", {"default": 1, "min": 0, "max": 10, "step": 0.01})
+                             "multi_user_facecrop_ratio": ("FLOAT", {"default": 1, "min": 0, "max": 10, "step": 0.01}),
+                             "face_index": ("INT", {"default": 0, "min": 0, "max": 10, "step": 1})
                              }}
 
     RETURN_TYPES = ("IMAGE", "MASK", "BOX")
@@ -21,12 +22,14 @@ class RetinaFacePM:
     FUNCTION = "retain_face"
     CATEGORY = "protrait/model"
 
-    def retain_face(self, image, multi_user_facecrop_ratio):
+    def retain_face(self, image, multi_user_facecrop_ratio, face_index):
         np_image = np.clip(255. * image.cpu().numpy().squeeze(), 0, 255).astype(np.uint8)
         image = Image.fromarray(np_image)
-        retinaface_boxes, retinaface_keypoints, retinaface_masks, retinaface_tensor = call_face_crop(get_retinaface_detection(), image, multi_user_facecrop_ratio)
-        crop_image = image.crop(retinaface_boxes[0])
-        return (img_to_tensor(crop_image), retinaface_tensor, retinaface_boxes[0])
+        retinaface_boxes, retinaface_keypoints, retinaface_masks, retinaface_mask_nps = call_face_crop(get_retinaface_detection(), image, multi_user_facecrop_ratio)
+        crop_image = image.crop(retinaface_boxes[face_index])
+        retinaface_mask = np_to_mask(retinaface_mask_nps[face_index])
+        retinaface_boxe = retinaface_boxes[face_index]
+        return (img_to_tensor(crop_image), retinaface_mask, retinaface_boxe)
 
 class FaceFusionPM:
 

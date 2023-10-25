@@ -65,9 +65,8 @@ def safe_get_box_mask_keypoints(image, retinaface_result, crop_ratio, face_seg, 
         retinaface_boxs = [retinaface_boxs[index] for index in argindex]
         retinaface_keypoints = [retinaface_keypoints[index] for index in argindex]
         retinaface_mask_pils = [retinaface_mask_pils[index] for index in argindex]
-        retinaface_mask_np = [retinaface_masks[index] for index in argindex]
-        mask_tensor = np_to_mask(retinaface_mask_np[0])
-        return retinaface_boxs, retinaface_keypoints, retinaface_mask_pils, mask_tensor
+        retinaface_mask_nps = [retinaface_masks[index] for index in argindex]
+        return retinaface_boxs, retinaface_keypoints, retinaface_mask_pils, retinaface_mask_nps
 
     else:
         retinaface_box = np.array([])
@@ -120,9 +119,9 @@ def call_face_crop(retinaface_detection, image, crop_ratio, prefix="tmp"):
     # retinaface detect 
     retinaface_result = retinaface_detection(image)
     # get mask and keypoints
-    retinaface_box, retinaface_keypoints, retinaface_mask_pil, retinaface_mask_tensor = safe_get_box_mask_keypoints(image, retinaface_result, crop_ratio, None, "crop")
+    retinaface_box, retinaface_keypoints, retinaface_mask_pil, retinaface_mask_nps = safe_get_box_mask_keypoints(image, retinaface_result, crop_ratio, None, "crop")
 
-    return retinaface_box, retinaface_keypoints, retinaface_mask_pil, retinaface_mask_tensor
+    return retinaface_box, retinaface_keypoints, retinaface_mask_pil, retinaface_mask_nps
 
 def color_transfer(sc, dc):
     """

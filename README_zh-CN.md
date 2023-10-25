@@ -21,6 +21,7 @@ English | [简体中文](./README_zh-CN.md)
 3. 增加 PM_MakeUpTransfer节点 与easyphoto的MakeupTransfer一致
 4. PM_PortraitEnhancement节点增加一种超分模型，此超分模型可以对人脸不做高光
 5. 增加v1.1.0 workflow
+6. RetinaFace 支持选择人脸
 
 ## v1.0.0 更新
 
@@ -71,6 +72,7 @@ Easyphoto工作位置: [./workflow/easyphoto.json](./workflows/easyphoto.json )
 * RetainFace PM:使用Model Scope中的模型进行抠图 [链接](https://www.modelscope.cn/models/damo/cv_resnet50_face-detection_retinaface/summary)
 	* image：输入图像
 	* multi_user_facecrop_ratio：提取头像区域的倍数
+    * face_index : 选择第几个人脸
 * FaceFusion PM:将两张图像的人脸进行融合
 	* image：输入图像
 	* user_image：要融合的头像

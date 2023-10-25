@@ -19,6 +19,7 @@ If you have any questions or suggestions, you can reach us through:
 3. Add PM_MakeUpTransfer node. same as easyphoto makeup transfer.
 4. Add a super-resolution model to the PM_PortraitEnhancement node. This super-resolution model can not highlight faces.
 5. Add v1.1.0 workflow
+6. RetinaFace supports face selection
 
 ## V1.0.0 Update
 1. Added log for model downloads.
@@ -68,6 +69,7 @@ Click "Load" in the right panel of ComfyUI and select the ./workflow/easyphoto_w
 * RetainFace PM: Perform matting using models from Model Scope. [Link](https://www.modelscope.cn/models/damo/cv_resnet50_face-detection_retinaface/summary)
   * image: Input image
   * multi_user_facecrop_ratio: Multiplicative factor for extracting the head region.
+  * face_index : Choose which face
 
 * FaceFusion PM: Merge faces from two images.
   * image: Input image
