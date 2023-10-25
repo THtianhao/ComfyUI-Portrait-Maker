@@ -6,8 +6,9 @@ from .utils.face_process_utils import call_face_crop, color_transfer, Face_Skin
 from .utils.img_utils import img_to_tensor, tensor_to_img, tensor_to_np, np_to_tensor, np_to_mask, img_to_mask, img_to_np
 from .model_holder import *
 
-# import pydevd_pycharm
-# pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
+import pydevd_pycharm
+
+pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
 
 class RetinaFacePM:
     @classmethod
@@ -348,8 +349,6 @@ class MakeUpTransferPM:
     CATEGORY = "protrait/model"
 
     def makeup_transfer(self, source_image, makeup_image):
-        source_image = tensor_to_img(source_image).resize([256, 256])
-        makeup_image = tensor_to_img(makeup_image).resize([256, 256])
         result = get_pagan_interface().transfer(source_image, makeup_image)
         return (img_to_tensor(result),)
 
@@ -389,3 +388,73 @@ class FaceShapMatchPM:
         input_image_uint8 = np.array(source_image) * face_skin_mask + np.array(match_image) * (1 - face_skin_mask)
 
         return (np_to_tensor(input_image_uint8),)
+
+class SuperColorTransferPM:
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return \
+            {
+                "required": {
+                    "main_image": ("IMAGE",),
+                    "transfer_image": ("IMAGE",),
+                },
+                "optional": {
+                    "avatar_box": ("BOX",),
+                },
+            }
+
+    RETURN_TYPES = ("IMAGE",)
+
+    FUNCTION = "super_color_transfer"
+    CATEGORY = "protrait/model"
+
+    def super_color_transfer(self, main_image, transfer_image, avatar_box=None):
+        origin_np = tensor_to_np(main_image)
+        if avatar_box is not None:
+            main_image = main_image[:, avatar_box[1]:avatar_box[3], avatar_box[0]:avatar_box[2], :]
+            transfer_image = transfer_image[:, avatar_box[1]:avatar_box[3], avatar_box[0]:avatar_box[2], :]
+
+        transfer_result = color_transfer(tensor_to_np(main_image), tensor_to_np(transfer_image))  # 进行颜色迁移
+
+        face_skin_img = get_face_skin()(Image.fromarray(transfer_result), get_retinaface_detection(), [[1, 2, 3, 4, 5, 10, 12, 13]])[0]
+        face_skin_np = img_to_np(face_skin_img)
+        face_skin_np = cv2.blur(face_skin_np, (32, 32)) / 255
+
+        masked_img_np = tensor_to_np(main_image) * (1 - face_skin_np) + transfer_result * face_skin_np
+
+        origin_np[avatar_box[1]:avatar_box[3], avatar_box[0]:avatar_box[2], :] = masked_img_np
+
+        return (np_to_tensor(origin_np),)
+
+class SuperMakeUpTransferPM:
+
+    @classmethod
+    def INPUT_TYPES(s):
+        return \
+            {
+                "required": {
+                    "main_image": ("IMAGE",),
+                    "makeup_image": ("IMAGE",),
+                },
+                "optional": {
+                    "avatar_box": ("BOX",),
+                },
+            }
+
+    RETURN_TYPES = ("IMAGE",)
+    FUNCTION = "super_makeup_transfer"
+    CATEGORY = "protrait/model"
+
+    def super_makeup_transfer(self, main_image, makeup_image, avatar_box=None):
+        box_width, box_height = avatar_box[2] - avatar_box[0], avatar_box[3] - avatar_box[1]
+        origin_np = tensor_to_np(main_image)
+        if avatar_box is not None:
+            main_image = main_image[:, avatar_box[1]:avatar_box[3], avatar_box[0]:avatar_box[2], :]
+            makeup_image = makeup_image[:, avatar_box[1]:avatar_box[3], avatar_box[0]:avatar_box[2], :]
+        resize_source_box_image = tensor_to_img(main_image).resize([256, 256])
+        resize_makeup_box_image = tensor_to_img(makeup_image).resize([256, 256])
+        transfer_image = get_pagan_interface().transfer(resize_source_box_image, resize_makeup_box_image)
+        box_size_transfer = transfer_image.resize([box_width, box_height], Image.Resampling.LANCZOS)
+        origin_np[avatar_box[1]:avatar_box[3], avatar_box[0]:avatar_box[2], :] = img_to_np(box_size_transfer)
+        return (np_to_tensor(origin_np),)

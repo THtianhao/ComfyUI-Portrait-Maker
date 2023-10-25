@@ -13,6 +13,11 @@ If you have any questions or suggestions, you can reach us through:
 - QQ Group: 10419777
 - WeChat Group: <img src="./images/wechat.jpg" width="200">
 
+## V1.2.0 Update
+1. Add PM_SuperColorTransfer node to simplify the color transfer process
+2. Add PM_SuperMakeUpTransfer node to simplify the process of makeup transfer 
+
+
 ## V1.1.0 Update
 1. faceskin adds blur option
 2. Add PM_FaceShapMatch node. same as easyphot faceshap match

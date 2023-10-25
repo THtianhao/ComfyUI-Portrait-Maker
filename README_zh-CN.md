@@ -15,6 +15,10 @@ English | [简体中文](./README_zh-CN.md)
 - QQ 群：10419777
 - 微信群： <img src="./images/wechat.jpg" width="200">
 
+## V1.2.0 Update
+1. 增加PM_SuperColorTransfer 节点，简化了颜色迁移的流程
+2. 增加PM_SuperMakeUpTransfer 节点，简化了进行装扮迁移的流程
+
 ## v1.1.0 更新
 1. faceskin 增加模糊选项
 2. 增加 PM_FaceShapMatch节点 与easyphoto的FaceshapMatch一致
