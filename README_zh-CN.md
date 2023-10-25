@@ -18,6 +18,7 @@ English | [简体中文](./README_zh-CN.md)
 ## V1.2.0 Update
 1. 增加PM_SuperColorTransfer 节点，简化了颜色迁移的流程
 2. 增加PM_SuperMakeUpTransfer 节点，简化了进行装扮迁移的流程
+3. 增加v1.2.0 workflow 
 
 ## v1.1.0 更新
 1. faceskin 增加模糊选项
@@ -117,6 +118,8 @@ Easyphoto工作位置: [./workflow/easyphoto.json](./workflows/easyphoto.json )
 * GetImageInfo PM: 提取图片的宽高
 * FaceShapMatchPM: 扩散后的图片和原图片进行一定的融合，减少脸旁边的差异
 * MakeUpTransferPM: 使用gan网络模型对妆容进行一定的迁移
+* SuperMakeUpTransferPM:(多节点的整合)融合两张图片的装扮
+* SuperColorTransferPM：(多节点的整合)迁移两张图片的颜色
 
 ## 贡献
 

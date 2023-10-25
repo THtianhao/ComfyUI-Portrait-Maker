@@ -16,6 +16,7 @@ If you have any questions or suggestions, you can reach us through:
 ## V1.2.0 Update
 1. Add PM_SuperColorTransfer node to simplify the color transfer process
 2. Add PM_SuperMakeUpTransfer node to simplify the process of makeup transfer 
+3. Add v1.2.0 workflow
 
 
 ## V1.1.0 Update
@@ -131,6 +132,8 @@ Click "Load" in the right panel of ComfyUI and select the ./workflow/easyphoto_w
 * Face Shape Match PM: Apply a certain level of fusion between the diffused image and the original image to reduce differences around the face.
 
 * Makeup Transfer PM: Use a GAN network model to perform makeup transfer.
+* SuperMakeUpTransfer PM:(Multi-node integration) makeup by merging two pictures
+* SuperColorTransfer PM：(Multi-node integration) transfer the colors of two pictures
 ## Contribution
 
 If you find any issues or have suggestions for improvement, feel free to contribute. Follow these steps:
