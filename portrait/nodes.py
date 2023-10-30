@@ -369,6 +369,8 @@ class MakeUpTransferPM:
     CATEGORY = "protrait/model"
 
     def makeup_transfer(self, source_image, makeup_image):
+        source_image = tensor_to_img(source_image)
+        makeup_image = tensor_to_img(makeup_image)
         result = get_pagan_interface().transfer(source_image, makeup_image)
         return (img_to_tensor(result),)
 
