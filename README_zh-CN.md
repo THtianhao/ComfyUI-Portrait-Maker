@@ -13,7 +13,7 @@ English | [简体中文](./README_zh-CN.md)
 - 电子邮件：tototianhao@gmail.com
 - telegram: https://t.me/+JoFE2vqHU4phZjg1
 - QQ 群：10419777
-- 微信群： <img src="./images/wechat.jpg" width="200">
+- 微信群： <img src="./images/wechat.jpg" width="300">
 
 ## V1.2.0 Update
 1. 增加PM_SuperColorTransfer 节点，简化了颜色迁移的流程

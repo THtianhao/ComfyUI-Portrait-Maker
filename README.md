@@ -11,7 +11,7 @@ If you have any questions or suggestions, you can reach us through:
 - Email: tototianhao@gmail.com
 - telegram: https://t.me/+JoFE2vqHU4phZjg1
 - QQ Group: 10419777
-- WeChat Group: <img src="./images/wechat.jpg" width="200">
+- WeChat Group: <img src="./images/wechat.jpg" width="300">
 
 ## V1.2.0 Update
 1. Add PM_SuperColorTransfer node to simplify the color transfer process
