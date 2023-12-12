@@ -7,4 +7,5 @@ modelscope
 scikit-image
 matplotlib
 insightface
+mmcv-full
 diffusers==0.18.2
