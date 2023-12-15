@@ -6,7 +6,7 @@ sys.path.append(main_path)
 
 import subprocess
 import threading
-
+import platform
 import requests
 from tqdm import tqdm
 # import pydevd_pycharm
@@ -35,6 +35,8 @@ print("##  installing dependencies")
 
 requirements_path = os.path.join(main_path, "requirements.txt")
 run_script([sys.executable, '-s', '-m', 'pip', 'install', '-q', '-r', requirements_path])
+if platform.system() != "Windows":
+    run_script([sys.executable, '-s', '-m', 'pip', 'install', '-q', 'mmcv_full'])
 
 def urldownload_progressbar(url, file_path):
     response = requests.get(url, stream=True)
