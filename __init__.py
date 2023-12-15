@@ -9,8 +9,6 @@ import threading
 
 import requests
 from tqdm import tqdm
-from portrait.nodes import *
-
 # import pydevd_pycharm
 # pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
 
@@ -49,6 +47,8 @@ def urldownload_progressbar(url, file_path):
                 progress_bar.update(len(chunk))
 
     progress_bar.close()
+    
+from portrait.nodes import *
 
 print("Start Setting weights")
 for url, filename in zip(urls, filenames):
