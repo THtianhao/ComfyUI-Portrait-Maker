@@ -11,7 +11,7 @@ import re
 main_path = os.path.dirname(__file__)
 sys.path.append(main_path)
 
-windows_not_install = ['mmcv_full']
+windows_not_install = ['mmcv_full\n']
 
 def handle_stream(stream, is_stdout):
     stream.reconfigure(encoding=locale.getpreferredencoding(), errors='replace')
