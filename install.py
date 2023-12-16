@@ -85,17 +85,14 @@ try:
 
     print("### ComfyUI-Impact-Pack: Check dependencies")
     if "python_embeded" in sys.executable or "python_embedded" in sys.executable:
-        pip_install = [sys.executable, '-s', '-m', 'pip', 'install']
+        pip_install = [sys.executable, '-s', '-m', 'pip', 'install', '-q']
         mim_install = [sys.executable, '-s', '-m', 'mim', 'install']
     else:
-        pip_install = [sys.executable, '-m', 'pip', 'install']
+        pip_install = [sys.executable, '-m', 'pip', 'install', '-q']
         mim_install = [sys.executable, '-m', 'mim', 'install']
 
     subpack_req = os.path.join(main_path, "requirements.txt")
     check_and_install_requirements(subpack_req)
-
-    if platform.system() != "Windows":
-        process_wrap([sys.executable, '-s', '-m', 'pip', 'install', '-q', 'mmcv_full'])
 
     if sys.argv[0] == 'install.py':
         sys.path.append('.')  # for portable version
