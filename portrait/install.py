@@ -77,7 +77,6 @@ def check_and_install_requirements(file_path):
                         continue
                     else:
                         log(f"install {line}")
-                        continue
                         process_wrap(pip_install + [line], cwd=root_path)
             return False
     return True
