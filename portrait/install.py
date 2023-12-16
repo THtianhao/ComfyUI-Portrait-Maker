@@ -17,12 +17,12 @@ def handle_stream(stream, is_stdout):
 
     for msg in stream:
         if is_stdout:
-            print(msg, end="", file=sys.stdout)
+            log(msg, end="", file=sys.stdout)
         else:
-            print(msg, end="", file=sys.stderr)
+            log(msg, end="", file=sys.stderr)
 
 def process_wrap(cmd_str, cwd=None, handler=None):
-    print(f"[Impact Pack] EXECUTE: {cmd_str} in '{cwd}'")
+    log(f"[Portrait Maker] EXECUTE: {cmd_str} in '{cwd}'")
     process = subprocess.Popen(cmd_str, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1)
 
     if handler is None:
@@ -49,7 +49,7 @@ def get_installed_packages():
             result = subprocess.check_output([sys.executable, '-m', 'pip', 'list'], universal_newlines=True)
             pip_list = set([line.split()[0].lower() for line in result.split('\n') if line.strip()])
         except subprocess.CalledProcessError as e:
-            print(f"[ComfyUI-Manager] Failed to retrieve the information of installed pip packages.")
+            log(f"[ComfyUI-Manager] Failed to retrieve the information of installed pip packages.")
             return set()
 
     return pip_list
@@ -86,8 +86,8 @@ def check_and_install_requirements(file_path):
 try:
     import platform
 
-    print("### ComfyUI-Impact-Pack: Check dependencies")
-    if "python_embeded" in sys.executable or "python_embedded" in sys.executable:
+    log("### ComfyUI-Portrait-Maker: Check dependencies")
+    if "python_embed" in sys.executable or "python_embedded" in sys.executable:
         pip_install = [sys.executable, '-s', '-m', 'pip', 'install', '-q']
         mim_install = [sys.executable, '-s', '-m', 'mim', 'install']
     else:
@@ -101,5 +101,5 @@ try:
         sys.path.append('.')  # for portable version
 
 except Exception as e:
-    print("[ERROR] ComfyUI-Impact-Pack: Dependency installation has failed. Please install manually.")
+    log("[ERROR] ComfyUI-Impact-Pack: Dependency installation has failed. Please install manually.")
     traceback.print_exc()
