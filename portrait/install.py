@@ -9,7 +9,7 @@ from portrait.config import *
 windows_not_install = ['mmcv_full\n']
 
 def log(msg, end=None, file=None):
-    print('toto==============', msg, end=end, file=file)
+    print('Portrait Maker ==============', msg, end=end, file=file)
 
 def handle_stream(stream, is_stdout):
     stream.reconfigure(encoding=locale.getpreferredencoding(), errors='replace')
