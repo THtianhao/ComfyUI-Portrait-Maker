@@ -456,7 +456,7 @@ class PreProcess:
         lms = lms[:, ::-1]
 
         mask, diff = self.process(mask, lms, device=self.device)
-        image = image.resize((self.img_size, self.img_size), Image.ANTIALIAS)
+        image = image.resize((self.img_size, self.img_size), Image.Resampling.NEAREST)
         image = self.transform(image)
         real = to_var(image.unsqueeze(0))
         return [real, mask, diff], face_on_image, crop_face
