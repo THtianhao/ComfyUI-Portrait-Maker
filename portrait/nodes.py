@@ -295,13 +295,14 @@ class ImageScaleShortPM:
         return {"required": {
             "image": ("IMAGE",),
             "size": ("INT", {"default": 512, "min": 0, "max": 2048, "step": 1}),
-            "crop_face": ("BOOLEAN", {"default": False, "label_on": "enabled", "label_off": "disabled"}),
+            "crop_face": ("BOOLEAN", {"default": False}),
         }}
 
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "image_scale_short"
 
     CATEGORY = "protrait/other"
+
 
     def image_scale_short(self, image, size, crop_face):
         input_image = tensor_to_img(image)
