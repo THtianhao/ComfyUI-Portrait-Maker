@@ -66,18 +66,20 @@ def is_installed(name):
 
 def check_and_install_requirements(file_path):
     log(file_path)
+    version = sys.version_info[:2]
     if os.path.exists(file_path):
         with open(file_path, 'r') as file:
             lines = file.readlines()
             for line in lines:
                 log(line)
                 if not is_installed(line):
+                    if platform.system() == "Windows" and version[1] == 11 and 'insightface' in line:
+                        process_wrap(pip_install + ['insightface-0.7.3-cp311-cp311-win_amd64.whl'], cwd=root_path)
                     if platform.system() == "Windows" and line in windows_not_install:
                         log(f"windows skip {line}")
                         continue
-                    else:
-                        log(f"install {line}")
-                        process_wrap(pip_install + [line], cwd=root_path)
+                    log(f"install {line}")
+                    process_wrap(pip_install + [line], cwd=root_path)
             return False
     return True
 
