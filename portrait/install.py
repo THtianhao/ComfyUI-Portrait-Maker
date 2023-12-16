@@ -5,9 +5,7 @@ import threading
 import locale
 import traceback
 import re
-
-main_path = os.path.dirname(__file__)
-sys.path.append(main_path)
+from config import *
 
 windows_not_install = ['mmcv_full\n']
 
@@ -81,7 +79,7 @@ def check_and_install_requirements(file_path):
                     else:
                         log(f"install {line}")
                         continue
-                        process_wrap(pip_install + [line], cwd=main_path)
+                        process_wrap(pip_install + [line], cwd=root_path)
             return False
     return True
 
@@ -96,7 +94,7 @@ try:
         pip_install = [sys.executable, '-m', 'pip', 'install', '-q']
         mim_install = [sys.executable, '-m', 'mim', 'install']
 
-    subpack_req = os.path.join(main_path, "requirements.txt")
+    subpack_req = os.path.join(root_path, "requirements.txt")
     check_and_install_requirements(subpack_req)
 
     if sys.argv[0] == 'install.py':
