@@ -1,42 +1,10 @@
-import sys
-import os
-
-main_path = os.path.dirname(__file__)
-sys.path.append(main_path)
-
-import subprocess
-import threading
-import platform
+import install
 import requests
 from tqdm import tqdm
+from portrait.nodes import *
+
 # import pydevd_pycharm
 # pydevd_pycharm.settrace('49.7.62.197', port=10090, stdoutToServer=True, stderrToServer=True)
-
-
-def handle_stream(stream, prefix):
-    for line in stream:
-        print(prefix, line, end="")
-
-def run_script(cmd, cwd='.'):
-    process = subprocess.Popen(cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1)
-
-    stdout_thread = threading.Thread(target=handle_stream, args=(process.stdout, ""))
-    stderr_thread = threading.Thread(target=handle_stream, args=(process.stderr, "[!]"))
-
-    stdout_thread.start()
-    stderr_thread.start()
-
-    stdout_thread.join()
-    stderr_thread.join()
-
-    return process.wait()
-
-print("##  installing dependencies")
-
-requirements_path = os.path.join(main_path, "requirements.txt")
-run_script([sys.executable, '-s', '-m', 'pip', 'install', '-q', '-r', requirements_path])
-if platform.system() != "Windows":
-    run_script([sys.executable, '-s', '-m', 'pip', 'install', '-q', 'mmcv_full'])
 
 def urldownload_progressbar(url, file_path):
     response = requests.get(url, stream=True)
@@ -50,7 +18,6 @@ def urldownload_progressbar(url, file_path):
 
     progress_bar.close()
     
-from portrait.nodes import *
 
 print("Start Setting weights")
 for url, filename in zip(urls, filenames):
