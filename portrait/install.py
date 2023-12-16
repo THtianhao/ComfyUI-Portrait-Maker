@@ -1,11 +1,10 @@
-import os
 import sys
 import subprocess
 import threading
 import locale
 import traceback
 import re
-from config import *
+from portrait.config import *
 
 windows_not_install = ['mmcv_full\n']
 
