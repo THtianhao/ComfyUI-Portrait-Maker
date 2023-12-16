@@ -10,4 +10,3 @@ matplotlib
 insightface
 diffusers==0.18.2
 sentencepiece
-mmcv_full
