@@ -3,7 +3,7 @@ import os, sys
 main_path = os.path.dirname(__file__)
 sys.path.append(main_path)
 
-import install
+import portrait.install
 import requests
 from tqdm import tqdm
 from portrait.nodes import *

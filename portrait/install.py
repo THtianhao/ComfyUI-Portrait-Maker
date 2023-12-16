@@ -1,6 +1,4 @@
-import platform
 import os
-import shutil
 import sys
 import subprocess
 import threading
@@ -12,6 +10,9 @@ main_path = os.path.dirname(__file__)
 sys.path.append(main_path)
 
 windows_not_install = ['mmcv_full\n']
+
+def log(msg):
+    print('toto==============', msg)
 
 def handle_stream(stream, is_stdout):
     stream.reconfigure(encoding=locale.getpreferredencoding(), errors='replace')
@@ -67,15 +68,20 @@ def is_installed(name):
     return result
 
 def check_and_install_requirements(file_path):
-    print(f"req_path: {file_path}")
+    log(file_path)
     if os.path.exists(file_path):
         with open(file_path, 'r') as file:
             lines = file.readlines()
             for line in lines:
-                if platform.system() == "Windows" and line in windows_not_install:
-                    continue
-                else:
-                    process_wrap(pip_install + [line], cwd=main_path)
+                log(line)
+                if not is_installed(line):
+                    if platform.system() == "Windows" and line in windows_not_install:
+                        log(f"windows skip {line}")
+                        continue
+                    else:
+                        log(f"install {line}")
+                        continue
+                        process_wrap(pip_install + [line], cwd=main_path)
             return False
     return True
 
