@@ -1,4 +1,5 @@
-import os
+import os, sys
+
 main_path = os.path.dirname(__file__)
 sys.path.append(main_path)
 
@@ -21,7 +22,6 @@ def urldownload_progressbar(url, file_path):
                 progress_bar.update(len(chunk))
 
     progress_bar.close()
-    
 
 print("Start Setting weights")
 for url, filename in zip(urls, filenames):

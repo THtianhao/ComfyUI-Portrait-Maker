@@ -9,3 +9,4 @@ scikit-image
 matplotlib
 insightface
 diffusers==0.18.2
+mmcv_full

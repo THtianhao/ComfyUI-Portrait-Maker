@@ -11,6 +11,7 @@ import re
 main_path = os.path.dirname(__file__)
 sys.path.append(main_path)
 
+windows_not_install = ['mmcv_full']
 
 def handle_stream(stream, is_stdout):
     stream.reconfigure(encoding=locale.getpreferredencoding(), errors='replace')
@@ -20,7 +21,6 @@ def handle_stream(stream, is_stdout):
             print(msg, end="", file=sys.stdout)
         else:
             print(msg, end="", file=sys.stderr)
-
 
 def process_wrap(cmd_str, cwd=None, handler=None):
     print(f"[Impact Pack] EXECUTE: {cmd_str} in '{cwd}'")
@@ -40,10 +40,8 @@ def process_wrap(cmd_str, cwd=None, handler=None):
 
     return process.wait()
 
-
 # ---
 pip_list = None
-
 
 def get_installed_packages():
     global pip_list
@@ -57,7 +55,6 @@ def get_installed_packages():
 
     return pip_list
 
-
 def is_installed(name):
     name = name.strip()
     pattern = r'([^<>!=]+)([<>!=]=?)'
@@ -69,7 +66,6 @@ def is_installed(name):
     result = name.lower() in get_installed_packages()
     return result
 
-
 def check_and_install_requirements(file_path):
     print(f"req_path: {file_path}")
     if os.path.exists(file_path):
@@ -77,13 +73,16 @@ def check_and_install_requirements(file_path):
             lines = file.readlines()
             for line in lines:
                 if not is_installed(line):
-                    process_wrap(pip_install + [line], cwd=main_path)
-                    return False
+                    if platform.system() == "Windows" and line in windows_not_install:
+                        continue
+                    else:
+                        process_wrap(pip_install + [line], cwd=main_path)
+            return False
     return True
-
 
 try:
     import platform
+
     print("### ComfyUI-Impact-Pack: Check dependencies")
     if "python_embeded" in sys.executable or "python_embedded" in sys.executable:
         pip_install = [sys.executable, '-s', '-m', 'pip', 'install']
