@@ -97,7 +97,7 @@ class RatioMerge2ImagePM:
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "image_ratio_merge"
 
-    CATEGORY = "protrait/model"
+    CATEGORY = "protrait/other"
 
     def image_ratio_merge(self, image1, image2, fusion_rate):
         rate_fusion_image = image1 * (1 - fusion_rate) + image2 * fusion_rate
@@ -156,7 +156,7 @@ class ExpandMaskFaceWidthPM:
     RETURN_TYPES = ("MASK", "BOX")
     FUNCTION = "expand_mask_face_width"
 
-    CATEGORY = "protrait/model"
+    CATEGORY = "protrait/other"
 
     def expand_mask_face_width(self, mask, box, expand_width):
         h, w = mask.shape[1], mask.shape[2]
@@ -184,7 +184,7 @@ class BoxCropImagePM:
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("crop_image",)
     FUNCTION = "box_crop_image"
-    CATEGORY = "protrait/model"
+    CATEGORY = "protrait/other"
 
     def box_crop_image(self, image, box):
         image = image[:, box[1]:box[3], box[0]:box[2], :]
@@ -202,7 +202,7 @@ class ColorTransferPM:
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "color_transfer"
 
-    CATEGORY = "protrait/model"
+    CATEGORY = "protrait/other"
 
     def color_transfer(self, transfer_from, transfer_to):
         transfer_result = color_transfer(tensor_to_np(transfer_from), tensor_to_np(transfer_to))  # 进行颜色迁移
@@ -243,7 +243,7 @@ class MaskDilateErodePM:
     RETURN_TYPES = ("MASK",)
     FUNCTION = "mask_dilate_erode"
 
-    CATEGORY = "protrait/model"
+    CATEGORY = "protrait/other"
 
     def mask_dilate_erode(self, mask):
         out_mask = Image.fromarray(np.uint8(cv2.dilate(tensor_to_np(mask), np.ones((96, 96), np.uint8), iterations=1) - cv2.erode(tensor_to_np(mask), np.ones((48, 48), np.uint8), iterations=1)))
@@ -301,7 +301,7 @@ class ImageScaleShortPM:
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "image_scale_short"
 
-    CATEGORY = "protrait/model"
+    CATEGORY = "protrait/other"
 
     def image_scale_short(self, image, size, crop_face):
         input_image = tensor_to_img(image)
@@ -328,7 +328,7 @@ class ImageResizeTargetPM:
 
     FUNCTION = "image_resize_target"
 
-    CATEGORY = "protrait/model"
+    CATEGORY = "protrait/other"
 
     def image_resize_target(self, image, width, height):
         imagepi = tensor_to_img(image)
@@ -347,7 +347,7 @@ class GetImageInfoPM:
 
     FUNCTION = "get_image_info"
 
-    CATEGORY = "protrait/model"
+    CATEGORY = "protrait/other"
 
     def get_image_info(self, image):
         width = image.shape[2]
@@ -429,10 +429,11 @@ class SuperColorTransferPM:
     RETURN_TYPES = ("IMAGE",)
 
     FUNCTION = "super_color_transfer"
-    CATEGORY = "protrait/model"
+    CATEGORY = "protrait/super"
 
     def super_color_transfer(self, main_image, transfer_image, avatar_box=None):
         origin_np = tensor_to_np(main_image)
+        result_np = None
         if avatar_box is not None:
             main_image = main_image[:, avatar_box[1]:avatar_box[3], avatar_box[0]:avatar_box[2], :]
             transfer_image = transfer_image[:, avatar_box[1]:avatar_box[3], avatar_box[0]:avatar_box[2], :]
@@ -444,10 +445,13 @@ class SuperColorTransferPM:
         face_skin_np = cv2.blur(face_skin_np, (32, 32)) / 255
 
         masked_img_np = tensor_to_np(main_image) * (1 - face_skin_np) + transfer_result * face_skin_np
+        result_np = masked_img_np
 
-        origin_np[avatar_box[1]:avatar_box[3], avatar_box[0]:avatar_box[2], :] = masked_img_np
+        if avatar_box is not None:
+            origin_np[avatar_box[1]:avatar_box[3], avatar_box[0]:avatar_box[2], :] = masked_img_np
+            result_np = origin_np
 
-        return (np_to_tensor(origin_np),)
+        return (np_to_tensor(result_np),)
 
 class SuperMakeUpTransferPM:
 
@@ -466,7 +470,7 @@ class SuperMakeUpTransferPM:
 
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "super_makeup_transfer"
-    CATEGORY = "protrait/model"
+    CATEGORY = "protrait/super"
 
     def super_makeup_transfer(self, main_image, makeup_image, avatar_box=None):
         box_width, box_height = avatar_box[2] - avatar_box[0], avatar_box[3] - avatar_box[1]
