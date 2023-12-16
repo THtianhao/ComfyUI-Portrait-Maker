@@ -1,3 +1,7 @@
+import os
+main_path = os.path.dirname(__file__)
+sys.path.append(main_path)
+
 import install
 import requests
 from tqdm import tqdm
