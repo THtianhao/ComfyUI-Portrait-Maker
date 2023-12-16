@@ -72,11 +72,10 @@ def check_and_install_requirements(file_path):
         with open(file_path, 'r') as file:
             lines = file.readlines()
             for line in lines:
-                if not is_installed(line):
-                    if platform.system() == "Windows" and line in windows_not_install:
-                        continue
-                    else:
-                        process_wrap(pip_install + [line], cwd=main_path)
+                if platform.system() == "Windows" and line in windows_not_install:
+                    continue
+                else:
+                    process_wrap(pip_install + [line], cwd=main_path)
             return False
     return True
 
