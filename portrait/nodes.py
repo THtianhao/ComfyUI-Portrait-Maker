@@ -494,10 +494,7 @@ class SimilarityPM:
                     "main_image": ("IMAGE",),
                     "compare_image": ("IMAGE",),
                     "model": (["sim"],),
-                    "result_prefix": ("STRING")
-                },
-                "optional": {
-                    "avatar_box": ("BOX",),
+                    "result_prefix": ("STRING",)
                 },
             }
 
