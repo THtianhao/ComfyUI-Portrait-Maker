@@ -494,7 +494,7 @@ class SimilarityPM:
                     "main_image": ("IMAGE",),
                     "compare_image": ("IMAGE",),
                     "model": (["sim"],),
-                    "result_prefix": ("STRING",)
+                    "result_prefix": ("STRING",{"default": ""}),
                 },
             }
 
@@ -507,9 +507,13 @@ class SimilarityPM:
         main_image_copy = tensor_to_img(main_image)
         compare_image_copy = tensor_to_img(compare_image)
         score = None
+        result = None
         if model == "sim":
             root_embedding = get_face_recognition()(dict(user=Image.fromarray(np.uint8(main_image_copy))))[OutputKeys.IMG_EMBEDDING]
             compare_embedding = get_face_recognition()(dict(user=Image.fromarray(np.uint8(compare_image_copy))))[OutputKeys.IMG_EMBEDDING]
             score = float(np.dot(root_embedding, np.transpose(compare_embedding))[0][0])
-        result = f"{result_prefix}_{round(score, 2)}"
+        if result_prefix is "":
+            result = str(round(score, 2))
+        else:
+            result = f"{result_prefix}_{round(score, 2)}"
         return (result,)
