@@ -41,10 +41,6 @@ If you have any questions or suggestions, you can reach us through:
 ## Installation
 **Note: When you start the plugin for the first time, it will download all the models required by EasyPhoto. You can see the download progress in the terminal. Please do not interrupt the download (no hash verification for startup speed). If the download is interrupted, you need to manually delete the files downloaded halfway last time and download them again.**
 
-### For Windows users
-
-If you are using a project extracted from a zip package while using ComfyUI, you won't be able to use this plugin. This project relies on ModelScope, but the virtual environment provided in the official ComfyUI zip package cannot install ModelScope. Furthermore, the ComfyUI author has responded, stating that this issue cannot be resolved.[aliyunsdkcor error](https://github.com/ltdrdata/ComfyUI-Impact-Pack/issues/223) If Windows users wish to use this plugin for analyzing and composing ComfyUI workflows, they will need to create their own virtual environment. (I am using Python 3.10.6.).Of course, if you know a solution, feel free to submit a pull request (PR).
-
 ### install step
 1. First, install ComfyUI.
 
