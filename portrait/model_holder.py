@@ -16,6 +16,7 @@ skin_retouching = None
 portrait_enhancement = None
 psgan_interface = None
 real_gan_sr = None
+face_recognition = None
 
 def get_retinaface_detection():
     global retinaface_detection
@@ -72,3 +73,10 @@ def get_pagan_interface():
         makeup_transfer_model_path = os.path.join(models_path, "makeup_transfer.pth")
         psgan_interface = PSGAN_Inference("cuda", makeup_transfer_model_path, get_retinaface_detection(), get_face_skin(), face_landmarks_model_path)
     return psgan_interface
+
+def get_face_recognition():
+    global face_recognition
+    if face_recognition is None:
+        face_recognition = pipeline("face_recognition", model="bubbliiiing/cv_retinafce_recognition", model_revision="v1.0.3")
+    return face_recognition
+

@@ -303,7 +303,6 @@ class ImageScaleShortPM:
 
     CATEGORY = "protrait/other"
 
-
     def image_scale_short(self, image, size, crop_face):
         input_image = tensor_to_img(image)
         short_side = min(input_image.width, input_image.height)
@@ -485,3 +484,31 @@ class SuperMakeUpTransferPM:
         box_size_transfer = transfer_image.resize([box_width, box_height], Image.Resampling.LANCZOS)
         origin_np[avatar_box[1]:avatar_box[3], avatar_box[0]:avatar_box[2], :] = img_to_np(box_size_transfer)
         return (np_to_tensor(origin_np),)
+
+class SimilarityPM:
+    @classmethod
+    def INPUT_TYPES(s):
+        return \
+            {
+                "required": {
+                    "main_image": ("IMAGE",),
+                    "compare_image": ("IMAGE",),
+                    "model": (["sim"],),
+                },
+                "optional": {
+                    "avatar_box": ("BOX",),
+                },
+            }
+
+    RETURN_TYPES = ("FLOAT",)
+
+    FUNCTION = "similarity_compare"
+    CATEGORY = "protrait/model"
+
+    def similarity_compare(self, main_image, compare_image, model):
+        score = None
+        if model == "sim":
+            root_embedding = get_face_recognition(dict(user=Image.fromarray(np.uint8(main_image))))[OutputKeys.IMG_EMBEDDING]
+            compare_embedding = face_recognition(dict(user=Image.fromarray(np.uint8(compare_image))))[OutputKeys.IMG_EMBEDDING]
+            score = float(np.dot(root_embedding, np.transpose(compare_embedding))[0][0])
+        return (score,)

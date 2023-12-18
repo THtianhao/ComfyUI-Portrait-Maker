@@ -52,6 +52,7 @@ NODE_CLASS_MAPPINGS = {
     "PM_FaceShapMatch": FaceShapMatchPM,
     "PM_SuperColorTransfer": SuperColorTransferPM,
     "PM_SuperMakeUpTransfer": SuperMakeUpTransferPM,
+    "PM_Similarity": SimilarityPM,
 }
 NODE_DISPLAY_NAME_MAPPINGS = {
     "PM_RetinaFace": "RetinaFace PM",
@@ -73,6 +74,8 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "PM_FaceShapMatch": "FaceShapMatch PM",
     "PM_SuperColorTransfer": "SuperColorTransfer PM",
     "PM_SuperMakeUpTransfer": "SuperMakeUpTransfer PM",
+    "PM_Similarity": "Similarity PM",
+
 }
 
 __all__ = ['NODE_CLASS_MAPPINGS', 'NODE_DISPLAY_NAME_MAPPINGS']
