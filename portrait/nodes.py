@@ -494,21 +494,25 @@ class SimilarityPM:
                     "main_image": ("IMAGE",),
                     "compare_image": ("IMAGE",),
                     "model": (["sim"],),
+                    "result_prefix": ("STRING")
                 },
                 "optional": {
                     "avatar_box": ("BOX",),
                 },
             }
 
-    RETURN_TYPES = ("FLOAT",)
+    RETURN_TYPES = ("STRING",)
 
     FUNCTION = "similarity_compare"
     CATEGORY = "protrait/model"
 
-    def similarity_compare(self, main_image, compare_image, model):
+    def similarity_compare(self, main_image, compare_image, model, result_prefix):
+        main_image_copy = tensor_to_img(main_image)
+        compare_image_copy = tensor_to_img(compare_image)
         score = None
         if model == "sim":
-            root_embedding = get_face_recognition(dict(user=Image.fromarray(np.uint8(main_image))))[OutputKeys.IMG_EMBEDDING]
-            compare_embedding = face_recognition(dict(user=Image.fromarray(np.uint8(compare_image))))[OutputKeys.IMG_EMBEDDING]
+            root_embedding = get_face_recognition()(dict(user=Image.fromarray(np.uint8(main_image_copy))))[OutputKeys.IMG_EMBEDDING]
+            compare_embedding = get_face_recognition()(dict(user=Image.fromarray(np.uint8(compare_image_copy))))[OutputKeys.IMG_EMBEDDING]
             score = float(np.dot(root_embedding, np.transpose(compare_embedding))[0][0])
-        return (score,)
+        result = f"{result_prefix}_{round(score, 2)}"
+        return (result,)
