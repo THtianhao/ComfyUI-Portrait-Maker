@@ -75,6 +75,10 @@ class FaceFusionPM:
             get_face_analysis().prepare(ctx_id=0, det_size=(640, 640))
             faces = get_face_analysis().get(source_np)
             swap_faces = get_face_analysis().get(swap_np)
+            if len(faces) == 0:
+                raise RuntimeError("No face was recognized in the source image / source image 没有识别到人脸")
+            if len(swap_faces) == 0:
+                raise RuntimeError("No face was recognized in the swap faces / swap faces没有识别到人脸")
             result_image = get_roop().get(source_np, faces[0], swap_faces[0], paste_back=True)
             if need_resize:
                 image = Image.fromarray(result_image)
@@ -494,7 +498,7 @@ class SimilarityPM:
                     "main_image": ("IMAGE",),
                     "compare_image": ("IMAGE",),
                     "model": (["sim"],),
-                    "result_prefix": ("STRING",{"default": ""}),
+                    "result_prefix": ("STRING", {"default": ""}),
                 },
             }
 
