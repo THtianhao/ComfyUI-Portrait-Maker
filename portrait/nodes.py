@@ -56,9 +56,9 @@ class FaceFusionPM:
 
     def img_face_fusion(self, source_image, swap_image, mode):
         if mode == "ali":
-            source_image = tensor_to_img(source_image)
-            swap_image = tensor_to_img(swap_image)
-            fusion_image = get_image_face_fusion()(dict(template=source_image, user=swap_image))[
+            source_image_pil = tensor_to_img(source_image)
+            swap_image_pil = tensor_to_img(swap_image)
+            fusion_image = get_image_face_fusion()(dict(template=source_image_pil, user=swap_image_pil))[
                 OutputKeys.OUTPUT_IMG]
             result_image = Image.fromarray(cv2.cvtColor(fusion_image, cv2.COLOR_BGR2RGB))
             return (img_to_tensor(result_image),)
