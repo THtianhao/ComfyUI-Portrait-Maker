@@ -98,7 +98,8 @@ try:
     subpack_req = os.path.join(root_path, "requirements.txt")
     check_and_install_requirements(subpack_req)
     if platform.system() != "Windows" and not is_installed('mmcv_full'):
-        process_wrap(pip_install + ['mmcv_full'], cwd=root_path)
+        pass
+        # process_wrap(pip_install + ['mmcv_full'], cwd=root_path)
     if sys.argv[0] == 'install.py':
         sys.path.append('.')  # for portable version
 

@@ -516,7 +516,7 @@ class SimilarityPM:
             root_embedding = get_face_recognition()(dict(user=Image.fromarray(np.uint8(main_image_copy))))[OutputKeys.IMG_EMBEDDING]
             compare_embedding = get_face_recognition()(dict(user=Image.fromarray(np.uint8(compare_image_copy))))[OutputKeys.IMG_EMBEDDING]
             score = float(np.dot(root_embedding, np.transpose(compare_embedding))[0][0])
-        if result_prefix is "":
+        if result_prefix == "":
             result = str(round(score, 2))
         else:
             result = f"{result_prefix}_{round(score, 2)}"
