@@ -6,7 +6,7 @@ import locale
 import traceback
 import re
 
-from facechain.utils.config import root_path
+from .config import root_path
 
 plugin_name = os.path.basename(root_path)
 windows_not_install = ['mmcv_full\n']
