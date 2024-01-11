@@ -1,15 +1,18 @@
+import os
 import sys
 import subprocess
 import threading
 import locale
 import traceback
 import re
-from portrait.config import *
 
+from facechain.utils.config import root_path
+
+plugin_name = os.path.basename(root_path)
 windows_not_install = ['mmcv_full\n']
 
 def log(msg, end=None, file=None):
-    print('Portrait Maker ==============', msg, end=end, file=file)
+    print(f'{plugin_name} :', msg, end=end, file=file)
 
 def handle_stream(stream, is_stdout):
     stream.reconfigure(encoding=locale.getpreferredencoding(), errors='replace')
@@ -21,7 +24,7 @@ def handle_stream(stream, is_stdout):
             log(msg, end="", file=sys.stderr)
 
 def process_wrap(cmd_str, cwd=None, handler=None):
-    log(f"[Portrait Maker] EXECUTE: {cmd_str} in '{cwd}'")
+    log(f"EXECUTE: {cmd_str} in '{cwd}'")
     process = subprocess.Popen(cmd_str, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1)
 
     if handler is None:
@@ -48,10 +51,15 @@ def get_installed_packages():
             result = subprocess.check_output([sys.executable, '-m', 'pip', 'list'], universal_newlines=True)
             pip_list = set([line.split()[0].lower() for line in result.split('\n') if line.strip()])
         except subprocess.CalledProcessError as e:
-            log(f"[ComfyUI-Manager] Failed to retrieve the information of installed pip packages.")
+            log(f"Failed to retrieve the information of installed pip packages.")
             return set()
 
     return pip_list
+
+def mmcv_install():
+    process_wrap(pip_install + ['-U', 'openmim'], cwd=root_path)
+    process_wrap(mim_install + ['mmcv-full'], cwd=root_path)
+    pass
 
 def is_installed(name):
     name = name.strip()
@@ -87,22 +95,20 @@ def check_and_install_requirements(file_path):
 try:
     import platform
 
-    log("### ComfyUI-Portrait-Maker: Check dependencies")
+    log("### : Check dependencies")
     if "python_embed" in sys.executable or "python_embedded" in sys.executable:
         pip_install = [sys.executable, '-s', '-m', 'pip', 'install', '-q']
-        mim_install = [sys.executable, '-s', '-m', 'mim', 'install']
+        mim_install = [sys.executable, '-s', '-m', 'mim', 'install', '-q']
     else:
         pip_install = [sys.executable, '-m', 'pip', 'install', '-q']
-        mim_install = [sys.executable, '-m', 'mim', 'install']
+        mim_install = [sys.executable, '-m', 'mim', 'install', '-q']
 
     subpack_req = os.path.join(root_path, "requirements.txt")
+    # mmcv_install()
     check_and_install_requirements(subpack_req)
-    if platform.system() != "Windows" and not is_installed('mmcv_full'):
-        pass
-        # process_wrap(pip_install + ['mmcv_full'], cwd=root_path)
     if sys.argv[0] == 'install.py':
-        sys.path.append('.')  # for portable version
+        sys.path.append('..')  # for portable version
 
 except Exception as e:
-    log("[ERROR] ComfyUI-Impact-Pack: Dependency installation has failed. Please install manually.")
+    log("Dependency installation has failed. Please install manually.")
     traceback.print_exc()
