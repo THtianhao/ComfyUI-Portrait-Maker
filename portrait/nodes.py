@@ -78,7 +78,9 @@ class FaceFusionPM:
             if len(faces) == 0:
                 raise RuntimeError("No face was recognized in the source image / source image 没有识别到人脸")
             if len(swap_faces) == 0:
-                raise RuntimeError("No face was recognized in the swap faces / swap faces没有识别到人脸")
+                swap_faces = faces
+                print("No face was recognized in the swap faces / swap faces没有识别到人脸, 用原脸替换!!!!!!!!!")
+                #raise RuntimeError("No face was recognized in the swap faces / swap faces没有识别到人脸")
             result_image = get_roop().get(source_np, faces[0], swap_faces[0], paste_back=True)
             if need_resize:
                 image = Image.fromarray(result_image)
@@ -396,9 +398,9 @@ class FaceShapMatchPM:
 
     def faceshap_match(self, source_image, match_image, face_box):
         # detect face area
-        source_image = tensor_to_img(source_image)
-        match_image = tensor_to_img(match_image)
-        face_skin_mask = get_face_skin()(source_image, get_retinaface_detection(), needs_index=[[1, 2, 3, 4, 5, 7, 8, 10, 11, 12, 13]])[0]
+        source_image_copy = tensor_to_img(source_image)
+        match_image_copy = tensor_to_img(match_image)
+        face_skin_mask = get_face_skin()(source_image_copy, get_retinaface_detection(), needs_index=[[1, 2, 3, 4, 5, 7, 8, 10, 11, 12, 13]])[0]
         face_width = face_box[2] - face_box[0]
         kernel_size = np.ones((int(face_width // 10), int(face_width // 10)), np.uint8)
 
@@ -411,7 +413,7 @@ class FaceShapMatchPM:
 
         # paste back to photo, Using I2I generation controlled solely by OpenPose, even with a very small denoise amplitude,
         # still carries the risk of introducing NSFW and global incoherence.!!! important!!!
-        input_image_uint8 = np.array(source_image) * face_skin_mask + np.array(match_image) * (1 - face_skin_mask)
+        input_image_uint8 = np.array(source_image_copy) * face_skin_mask + np.array(match_image_copy) * (1 - face_skin_mask)
 
         return (np_to_tensor(input_image_uint8),)
 
