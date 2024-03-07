@@ -78,9 +78,8 @@ class FaceFusionPM:
             if len(faces) == 0:
                 raise RuntimeError("No face was recognized in the source image / source image 没有识别到人脸")
             if len(swap_faces) == 0:
-                swap_faces = faces
                 print("No face was recognized in the swap faces / swap faces没有识别到人脸, 用原脸替换!!!!!!!!!")
-                #raise RuntimeError("No face was recognized in the swap faces / swap faces没有识别到人脸")
+                return (source_image,)
             result_image = get_roop().get(source_np, faces[0], swap_faces[0], paste_back=True)
             if need_resize:
                 image = Image.fromarray(result_image)
